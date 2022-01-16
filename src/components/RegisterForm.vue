@@ -6,7 +6,7 @@
       :model="registerUser"
       :rules="registerRules"
   >
-    <el-form-item label="账号" prop="nickname">
+    <el-form-item label="账号" prop="username">
       <el-input
           v-model="registerUser.username"
           placeholder="请输入你的账号~"
@@ -41,6 +41,8 @@
 
 <script lang="ts">
 import {getCurrentInstance} from "vue";
+import {useRouter} from "vue-router";
+
 export default {
   name: "RegisterForm",
   props: {
@@ -53,15 +55,24 @@ export default {
       required: true
     }
   },
-  setup() {
+  setup(props: any) {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
+    const router = useRouter();
     //注册提交方法
     const handleRegister = (formName: any) => {
       proxy.$refs[formName].validate((valid: boolean) => {
         // 提交
         if (valid) {
-          alert("sumbit!");
+          proxy.$axios.post("https://imissu.herokuapp.com/api/v1/auth/register", props.registerUser)
+              .then((res: any) => {
+                //注册成功
+                proxy.$message({
+                  message: "注册成功",
+                  type: "success"
+                });
+                router.push("/");
+              })
         } else {
           console.log("error~");
           return false;

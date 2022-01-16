@@ -12,7 +12,8 @@ import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 // Element-plus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-
+//http(axios)
+import axios from './http'
 // @ts-ignore
 import Prism from 'prismjs';
 
@@ -20,6 +21,7 @@ VueMarkdownEditor.use(githubTheme, {
     Prism,
 });
 const app = createApp(App);
+app.config.globalProperties.$axios = axios;
 app.use(store);
 app.use(router);
 app.use(VueMarkdownEditor);
