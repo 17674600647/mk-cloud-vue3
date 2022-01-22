@@ -2,7 +2,6 @@ import {ref} from "vue";
 
 interface RegisterUser {
     password: string;
-    nickname: string;
     password2: string;
     email: string;
     username: string;
@@ -10,17 +9,16 @@ interface RegisterUser {
 }
 
 export const registerUser = ref<RegisterUser>({
-    nickname: "",
-    username: "",
-    email: "",
-    password: "",
-    password2: "",
-    checkCode: "",
+    username: "1044204713",
+    email: "1044204713@qq.com",
+    password: "1234567890",
+    password2: "1234567890",
+    checkCode: "12345",
 });
 
 export interface RegisterRules {
     password: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string })[];
-    nickname: ({ trigger: string; message: string; required: string } | { min: number; max: number; trigger: string; message: string })[];
+    username: ({ trigger: string; message: string; required: string } | { min: number; max: number; trigger: string; message: string })[];
     password2: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string } | { validator: any; trigger: string })[];
     email: ({ trigger: string; message: string; required: string } | { trigger: string; type: string; message: string })[];
     checkCode: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string })[];
@@ -36,14 +34,14 @@ export const validatePass2 = (rule: RegisterRules, value: string, callback: any)
     }
 }
 export const registerRules = ref<RegisterRules>({
-    nickname: [{
-        message: "昵称不能为空~",
+    username: [{
+        message: "用户名(账号)不能为空~",
         trigger: 'blur',
         required: "true"
     }, {
-        min: 2,
-        max: 30,
-        message: "长度在2~30之间~",
+        min: 6,
+        max: 16,
+        message: "长度在6~16之间~",
         trigger: 'blur'
     }],
     email: [
@@ -65,8 +63,8 @@ export const registerRules = ref<RegisterRules>({
         },
         {
             min: 6,
-            max: 30,
-            message: "密码填写不正确~"
+            max: 18,
+            message: "密码填写不正确(6-18位)~"
         }],
     checkCode: [{
         message: "验证码不能为空~",
@@ -86,13 +84,11 @@ export const registerRules = ref<RegisterRules>({
         },
         {
             min: 6,
-            max: 30,
-            message: "密码填写不正确~"
+            max: 18,
+            message: "密码填写不正确(6-18位)~"
         },
         {
             validator: validatePass2,
             trigger: 'blur',
         }],
-
-
 })

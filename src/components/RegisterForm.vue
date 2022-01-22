@@ -13,7 +13,7 @@
     <el-form-item label="账号" prop="username">
       <el-input
           v-model="registerUser.username"
-          placeholder="请输入你的账号~"
+          placeholder="请设置你的账号(可用于登录)~"
       ></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
@@ -33,7 +33,7 @@
     <el-form-item label="邮箱" prop="email">
       <el-input
           v-model="registerUser.email"
-          placeholder="请填写你的邮箱~"
+          placeholder="请填写你的邮箱(可用于登录)~"
       ></el-input>
     </el-form-item>
     <el-form-item label="验证码" prop="checkCode">
@@ -75,14 +75,24 @@ export default {
       proxy.$refs[formName].validate((valid: boolean) => {
         // 提交
         if (valid) {
-          proxy.$axios.post("https://imissu.herokuapp.com/api/v1/auth/register", props.registerUser)
+          //todo 需要抽取路径
+          proxy.$axios.post("http://192.168.0.108:11300/mkuser/basic/register", props.registerUser)
               .then((res: any) => {
+                console.log(res)
                 //注册成功
-                proxy.$message({
-                  message: "注册成功",
-                  type: "success"
-                });
-                router.push("/");
+                if(res.data.code ==200){
+                  proxy.$message({
+                    message: res.data.message,
+                    type: "success"
+                  });
+                  router.push("/");
+                }else {
+                  proxy.$message({
+                    message: res.data.message,
+                    type: "error"
+                  });
+                }
+
               })
         } else {
           console.log("error~");

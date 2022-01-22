@@ -24,7 +24,7 @@ export default {
       default: 'editable'
     }
   },
-  setup() {
+  setup(props:any) {
     const text = ref('');
     //@ts-ignore
     const {proxy} = getCurrentInstance();
