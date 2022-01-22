@@ -11,10 +11,24 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Login',
         component: () => import( '../views/LoginRegister.vue')
     }, {
-        path: '/editor',
-        name: 'MdEditor',
-        component: () => import( '../components/MdEditor.vue')
-    },{
+        path: '/menu',
+        name: 'Menu',
+        component: () => import( '../views/Menu.vue'),
+        children: [
+            {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'd',
+                component: () => import( '../components/MdEditor.vue')
+            },
+            {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'mdEditor',
+                component: () => import( '../components/MdEditor.vue')
+            }
+        ]
+    }, {
         path: '/:catchAll(.*)',
         name: '404',
         component: () => import( '../views/404.vue')

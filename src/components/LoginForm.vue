@@ -1,4 +1,5 @@
 <template>
+
   <el-form
       ref="loginForm"
       label-width="100px"
@@ -6,6 +7,10 @@
       :model="loginUser"
       :rules="rules"
   >
+    <b style="font-size:34px">登 录</b>
+    <br>
+    <br>
+    <br>
     <el-form-item label="邮箱" prop="email">
       <el-input
           v-model="loginUser.email"

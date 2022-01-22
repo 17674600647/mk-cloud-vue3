@@ -6,6 +6,10 @@
       :model="registerUser"
       :rules="registerRules"
   >
+    <b style="font-size:34px">注 册</b>
+    <br>
+    <br>
+    <br>
     <el-form-item label="账号" prop="username">
       <el-input
           v-model="registerUser.username"
@@ -16,21 +20,29 @@
       <el-input
           v-model="registerUser.password"
           type="password"
-          placeholder="Enter Password..."
+          placeholder="设置一下密码"
       ></el-input>
     </el-form-item>
     <el-form-item label="确认密码" prop="password2">
       <el-input
           v-model="registerUser.password2"
           type="password"
-          placeholder="Enter Password..."
+          placeholder="请再次输入你设置的密码~"
       ></el-input>
     </el-form-item>
     <el-form-item label="邮箱" prop="email">
       <el-input
           v-model="registerUser.email"
-          placeholder="Enter Email"
+          placeholder="请填写你的邮箱~"
       ></el-input>
+    </el-form-item>
+    <el-form-item label="验证码" prop="checkCode">
+      <el-input
+          v-model="registerUser.checkCode"
+          placeholder="请输入验证码~"
+          style="width:40%"
+      ></el-input>
+      <el-button type="primary" style="margin-left:20px">发送验证码</el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" class="submit-btn" @click="handleRegister('registerForm')">注 册</el-button>
@@ -44,7 +56,6 @@ import {getCurrentInstance} from "vue";
 import {useRouter} from "vue-router";
 
 export default {
-  name: "RegisterForm",
   props: {
     registerUser: {
       type: Object,
@@ -85,5 +96,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>

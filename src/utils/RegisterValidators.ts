@@ -5,7 +5,8 @@ interface RegisterUser {
     nickname: string;
     password2: string;
     email: string;
-    username: string
+    username: string;
+    checkCode: string;
 }
 
 export const registerUser = ref<RegisterUser>({
@@ -14,14 +15,17 @@ export const registerUser = ref<RegisterUser>({
     email: "",
     password: "",
     password2: "",
+    checkCode: "",
 });
 
 export interface RegisterRules {
     password: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string })[];
     nickname: ({ trigger: string; message: string; required: string } | { min: number; max: number; trigger: string; message: string })[];
     password2: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string } | { validator: any; trigger: string })[];
-    email: ({ trigger: string; message: string; required: string } | { trigger: string; type: string; message: string })[]
+    email: ({ trigger: string; message: string; required: string } | { trigger: string; type: string; message: string })[];
+    checkCode: ({ trigger: string; message: string; required: string } | { min: number; max: number; message: string })[];
 }
+
 export const validatePass2 = (rule: RegisterRules, value: string, callback: any) => {
     if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -64,6 +68,16 @@ export const registerRules = ref<RegisterRules>({
             max: 30,
             message: "密码填写不正确~"
         }],
+    checkCode: [{
+        message: "验证码不能为空~",
+        trigger: 'blur',
+        required: "true"
+    },
+        {
+            min: 5,
+            max: 5,
+            message: "请检查验证码~"
+        }],
     password2: [
         {
             message: "密码不能为空~",
@@ -79,5 +93,6 @@ export const registerRules = ref<RegisterRules>({
             validator: validatePass2,
             trigger: 'blur',
         }],
+
 
 })
