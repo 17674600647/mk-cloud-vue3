@@ -92,3 +92,4 @@ export const registerRules = ref<RegisterRules>({
             trigger: 'blur',
         }],
 })
+

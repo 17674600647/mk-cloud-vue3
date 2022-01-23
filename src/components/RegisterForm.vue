@@ -42,7 +42,7 @@
           placeholder="请输入验证码~"
           style="width:40%"
       ></el-input>
-      <el-button type="primary" style="margin-left:20px">发送验证码</el-button>
+      <el-button type="primary" style="margin-left:20px" @click="emailSend('registerForm')">发送验证码</el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" class="submit-btn" @click="handleRegister('registerForm')">注 册</el-button>
@@ -54,6 +54,8 @@
 <script lang="ts">
 import {getCurrentInstance} from "vue";
 import {useRouter} from "vue-router";
+import {userRegisterApi} from "@/api/mk-user-api";
+import {emailSendApi} from "@/api/mk-other-api";
 
 export default {
   props: {
@@ -76,17 +78,17 @@ export default {
         // 提交
         if (valid) {
           //todo 需要抽取路径
-          proxy.$axios.post("http://192.168.0.108:11300/mkuser/basic/register", props.registerUser)
+          proxy.$axios.post(userRegisterApi, props.registerUser)
               .then((res: any) => {
                 console.log(res)
                 //注册成功
-                if(res.data.code ==200){
+                if (res.data.code == 200) {
                   proxy.$message({
                     message: res.data.message,
                     type: "success"
                   });
                   router.push("/");
-                }else {
+                } else {
                   proxy.$message({
                     message: res.data.message,
                     type: "error"
@@ -100,7 +102,36 @@ export default {
         }
       })
     }
-    return {handleRegister}
+    /*发送邮件验证码*/
+    const emailSend = (formName: any) => {
+      proxy.$refs[formName].validate((valid: boolean) => {
+        console.log(props.registerUser.email)
+        // 提交
+        if (valid) {
+          //todo 需要抽取路径
+          proxy.$axios.post(emailSendApi, props.registerUser)
+              .then((res: any) => {
+                //发送成功
+                if (res.data.code == 200) {
+                  proxy.$message({
+                    message: "验证码已经发送到"+ props.registerUser.email+"请查收!!",
+                    type: "success"
+                  });
+                } else {
+                  proxy.$message({
+                    message: res.data.message,
+                    type: "error"
+                  });
+                }
+
+              })
+        } else {
+          console.log("error~");
+          return false;
+        }
+      })
+    }
+    return {handleRegister,emailSend}
   }
 }
 </script>
