@@ -42,7 +42,7 @@
           placeholder="请输入验证码~"
           style="width:40%"
       ></el-input>
-      <el-button type="primary" style="margin-left:20px" @click="emailSend('registerForm')">发送验证码</el-button>
+      <el-button type="primary" style="margin-left:20px" @click="emailSend">发送验证码</el-button>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" class="submit-btn" @click="handleRegister('registerForm')">注 册</el-button>
@@ -103,33 +103,24 @@ export default {
       })
     }
     /*发送邮件验证码*/
-    const emailSend = (formName: any) => {
-      proxy.$refs[formName].validate((valid: boolean) => {
-        console.log(props.registerUser.email)
-        // 提交
-        if (valid) {
-          //todo 需要抽取路径
-          proxy.$axios.post(emailSendApi, props.registerUser)
-              .then((res: any) => {
-                //发送成功
-                if (res.data.code == 200) {
-                  proxy.$message({
-                    message: "验证码已经发送到"+ props.registerUser.email+"请查收!!",
-                    type: "success"
-                  });
-                } else {
-                  proxy.$message({
-                    message: res.data.message,
-                    type: "error"
-                  });
-                }
+    const emailSend = () => {
+      proxy.$axios.post(emailSendApi, props.registerUser)
+          .then((res: any) => {
+            console.log(res)
+            //发送成功
+            if (res.data.code == 200) {
+              proxy.$message({
+                message: "验证码已经发送到"+ props.registerUser.email+"请查收!!",
+                type: "success"
+              });
+            } else {
+              proxy.$message({
+                message: res.data.message,
+                type: "error"
+              });
+            }
 
-              })
-        } else {
-          console.log("error~");
-          return false;
-        }
-      })
+          })
     }
     return {handleRegister,emailSend}
   }

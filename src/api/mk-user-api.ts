@@ -4,4 +4,6 @@ import {getCurrentInstance} from "vue";
 const baseUrl = gatewayUrl + "/mkuser"
 /*注册接口*/
 export const userRegisterApi = baseUrl+"/base/register"
+/*登录接口*/
+export const userLoginApi = baseUrl+"/base/login"
 

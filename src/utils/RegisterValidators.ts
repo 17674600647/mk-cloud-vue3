@@ -9,11 +9,11 @@ interface RegisterUser {
 }
 
 export const registerUser = ref<RegisterUser>({
-    username: "1044204713",
-    email: "1044204713@qq.com",
-    password: "1234567890",
-    password2: "1234567890",
-    checkCode: "12345",
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
+    checkCode: "",
 });
 
 export interface RegisterRules {

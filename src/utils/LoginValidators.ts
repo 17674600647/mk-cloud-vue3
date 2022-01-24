@@ -2,7 +2,7 @@ import {ref} from "vue";
 
 interface User {
     password: string;
-    email: string
+    account: string
 }
 
 interface Rules {
@@ -15,7 +15,7 @@ interface Rules {
         max: number;
         message: string
     })[];
-    email: ({
+    account: ({
         trigger: string;
         message: string;
         required: string
@@ -27,20 +27,15 @@ interface Rules {
 }
 
 export const loginUser = ref<User>({
-    email: "",
+    account: "",
     password: ""
 });
 export const rules = ref<Rules>({
-    email: [
+    account: [
         {
-            message: "邮箱不能为空~",
+            message: "邮箱/账号不能为空~",
             trigger: 'blur',
             required: "true"
-        },
-        {
-            type: "email",
-            message: "邮箱格式填写不正确哦~",
-            trigger: 'blur'
         }],
     password: [
         {

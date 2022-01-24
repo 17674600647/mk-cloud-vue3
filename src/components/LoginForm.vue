@@ -11,17 +11,17 @@
     <br>
     <br>
     <br>
-    <el-form-item label="邮箱" prop="email">
+    <el-form-item label="账号/邮箱" prop="email">
       <el-input
-          v-model="loginUser.email"
-          placeholder="Enter Email"
+          v-model="loginUser.account"
+          placeholder="请输入 邮箱/账号 登录~"
       ></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input
           v-model="loginUser.password"
           type="password"
-          placeholder="Enter Password..."
+          placeholder="请输入密码~"
       ></el-input>
     </el-form-item>
     <el-form-item>
@@ -36,6 +36,7 @@
 
 <script lang="ts">
 import {getCurrentInstance} from "vue";
+import {userLoginApi} from "@/api/mk-user-api";
 
 export default {
   name: "LoginForm",
@@ -49,15 +50,31 @@ export default {
       required: true
     }
   },
-  setup(){
+  setup(props:any){
     //@ts-ignore
-    const {ctx} = getCurrentInstance();
+    const {proxy} = getCurrentInstance();
     //触发登录方法
     const handleLogin = (formName:string) => {
-      ctx.$refs[formName].validate((valid:boolean) => {
+      proxy.$refs[formName].validate((valid:boolean) => {
         // 提交
         if (valid) {
-          alert("sumbit!");
+          //todo 需要抽取路径
+          proxy.$axios.post(userLoginApi, props.loginUser)
+              .then((res: any) => {
+                //发送成功
+                if (res.data.code == 200) {
+                  proxy.$message({
+                    message: res.data.message,
+                    type: "success"
+                  });
+                } else {
+                  proxy.$message({
+                    message: res.data.message,
+                    type: "error"
+                  });
+                }
+
+              })
         } else {
           console.log("error~");
           return false;

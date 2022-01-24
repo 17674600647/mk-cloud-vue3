@@ -24,10 +24,11 @@ axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
 //响应拦截
 axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         endLoading();
+        console.log(JSON.stringify(response))
         return response;
     }, error => {
         //错误提醒
-    endLoading();
+        endLoading();
         return Promise.reject(error);
     }
 )
