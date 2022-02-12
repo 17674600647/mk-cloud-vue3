@@ -3,7 +3,10 @@
   <button>
     <router-link to="/login">登录页</router-link>
   </button>
-
+  <br>
+  <button>
+    <router-link to="/menu/mdEditor">笔记编辑页</router-link>
+  </button>
 </template>
 <script>
 export default {

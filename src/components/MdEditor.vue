@@ -15,25 +15,40 @@
 <script lang="ts">
 import {getCurrentInstance, ref} from 'vue';
 import {useRouter} from "vue-router";
+import {picUploadApi} from "@/api/mk-other-api"
+import {getUserInfo, Result} from "@/utils/CommonValidators";
 
 export default {
-  props:{
+  props: {
     modeConfig: {
       type: String,
       required: false,
       default: 'editable'
     }
   },
-  setup(props:any) {
+  setup(props: any) {
     const text = ref('');
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
     //上传图片的方法
     const handleUploadImage = (event: any, insertImage: any, files: any) => {
-    // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+      let formData = new FormData();
+      let mkUser = getUserInfo();
+
+      formData.append("file", files);
       console.log(files);
       //todo:完成图片的上传
+      let config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      };  //添加请求头
+      proxy.$axios.post(picUploadApi, formData, config)
+          .then((res: Result) => {
+            console.log(res.data);
+          })
+
+
       // 此处只做示例
       insertImage({
         url:
@@ -43,7 +58,7 @@ export default {
         height: 'auto',
       });
     }
-    const saveContent=(text:any, html:any)=>{
+    const saveContent = (text: any, html: any) => {
       //todo:完成文本的上传
       proxy.$axios.post("https://imissu.herokuapp.com/api/v1/auth/register", props.registerUser)
           .then((res: any) => {
@@ -56,7 +71,7 @@ export default {
           })
     }
     return {
-      text, handleUploadImage,saveContent
+      text, handleUploadImage, saveContent
     };
   },
 };

@@ -37,6 +37,7 @@
 <script lang="ts">
 import {getCurrentInstance} from "vue";
 import {userLoginApi} from "@/api/mk-user-api";
+import {Result, saveStorage, StorageAuthStr, StorageTokenStr} from "@/utils/CommonValidators";
 
 export default {
   name: "LoginForm",
@@ -50,23 +51,25 @@ export default {
       required: true
     }
   },
-  setup(props:any){
+  setup(props: any) {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     //触发登录方法
-    const handleLogin = (formName:string) => {
-      proxy.$refs[formName].validate((valid:boolean) => {
+    const handleLogin = (formName: string) => {
+      proxy.$refs[formName].validate((valid: boolean) => {
         // 提交
         if (valid) {
-          //todo 需要抽取路径
           proxy.$axios.post(userLoginApi, props.loginUser)
-              .then((res: any) => {
+              .then((res: Result) => {
                 //发送成功
                 if (res.data.code == 200) {
+                  saveStorage(res);
+
                   proxy.$message({
                     message: res.data.message,
                     type: "success"
                   });
+
                 } else {
                   proxy.$message({
                     message: res.data.message,
@@ -81,7 +84,7 @@ export default {
         }
       })
     }
-    return { handleLogin};
+    return {handleLogin};
   }
 }
 </script>
@@ -102,9 +105,11 @@ form.sign-up-form {
   opacity: 0;
   z-index: 1;
 }
+
 .submit-btn {
   width: 100%;
 }
+
 /* register */
 .LoginForm {
   margin-top: 20px;
