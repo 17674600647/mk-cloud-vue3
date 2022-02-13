@@ -31,24 +31,21 @@ export default {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
+    //获取用户信息
+    const mkUser = getUserInfo();
     //上传图片的方法
-    const handleUploadImage = (event: any, insertImage: any, files: any) => {
-      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-      let formData = new FormData();
-      let mkUser = getUserInfo();
-
-      formData.append("file", files);
-      console.log(files);
-      //todo:完成图片的上传
+    //@ts-ignore
+    const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
+      let formData=new FormData();
+      formData.append('file',files[0]);
+      console.log(files[0])
       let config = {
         headers: {'Content-Type': 'multipart/form-data'}
-      };  //添加请求头
-      proxy.$axios.post(picUploadApi, formData, config)
+      };
+      proxy.$axios.post(picUploadApi, formData,config)
           .then((res: Result) => {
             console.log(res.data);
           })
-
-
       // 此处只做示例
       insertImage({
         url:

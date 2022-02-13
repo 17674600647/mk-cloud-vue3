@@ -1,6 +1,7 @@
 //axios
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {ElLoading} from 'element-plus';
+import {StorageTokenStr} from "@/utils/CommonValidators";
 
 let loading: any;
 const startLoading: () => void = () => {
@@ -16,8 +17,10 @@ const endLoading: () => void = () => {
 }
 //请求拦截
 axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
-    //加载
+    //加载动画开始
     startLoading();
+    // @ts-ignore
+    config.headers.token = sessionStorage.getItem(StorageTokenStr);
     return config;
 })
 
