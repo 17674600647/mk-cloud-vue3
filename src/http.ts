@@ -20,7 +20,7 @@ axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
     //加载动画开始
     startLoading();
     // @ts-ignore
-    config.headers.token = sessionStorage.getItem(StorageTokenStr);
+    config.headers.token = localStorage.getItem(StorageTokenStr);
     return config;
 })
 
@@ -32,6 +32,18 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
     }, error => {
         //错误提醒
         endLoading();
+        //todo :完成没有权限就跳转到登录页
+        if (error.response) {
+            console.log("status:" + error.response.status)
+            switch (error.response.status) {
+                case 401:
+                    alert("身份认证失败~")
+                    break;
+                default:
+                    alert("未知错误~")
+            }
+        }
+
         return Promise.reject(error);
     }
 )

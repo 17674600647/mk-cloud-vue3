@@ -37,7 +37,6 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: var(--el-text-color-primary);
-  line-height: 160px;
   width: 100%;
   height: 100%;
 }

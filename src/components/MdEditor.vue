@@ -7,6 +7,7 @@
                height="100%"
                :include-level="[1,2,3,4,5,6]"
                :model="modeConfig"
+               :update="update"
   >
   </v-md-editor>
 
@@ -24,36 +25,40 @@ export default {
       type: String,
       required: false,
       default: 'editable'
+    },
+    update:{
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup(props: any) {
+    //是否为更新
+    let update = props.update;
     const text = ref('');
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
-    //获取用户信息
-    const mkUser = getUserInfo();
     //上传图片的方法
     //@ts-ignore
     const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
-      let formData=new FormData();
-      formData.append('file',files[0]);
+      let formData = new FormData();
+      formData.append('file', files[0]);
       console.log(files[0])
       let config = {
         headers: {'Content-Type': 'multipart/form-data'}
       };
-      proxy.$axios.post(picUploadApi, formData,config)
+      proxy.$axios.post(picUploadApi, formData, config)
           .then((res: Result) => {
             console.log(res.data);
+            // 此处只做示例
+            insertImage({
+              url: res.data.data,
+              desc: '七龙珠',
+              width: 'auto',
+              height: 'auto',
+            });
           })
-      // 此处只做示例
-      insertImage({
-        url:
-            'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1269952892,3525182336&fm=26&gp=0.jpg',
-        desc: '七龙珠',
-        width: 'auto',
-        height: 'auto',
-      });
     }
     const saveContent = (text: any, html: any) => {
       //todo:完成文本的上传
