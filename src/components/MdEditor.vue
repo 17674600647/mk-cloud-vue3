@@ -1,15 +1,24 @@
-<template>
-  <v-md-editor v-model="text"
-               :disabled-menus="[]"
-               @upload-image="handleUploadImage"
-               @save="saveContent"
-               @blurb="saveContent"
-               height="100%"
-               :include-level="[1,2,3,4,5,6]"
-               :model="modeConfig"
-               :update="update"
-  >
-  </v-md-editor>
+<template xmlns="http://www.w3.org/1999/html">
+  <div class="title-input-div">
+    <el-input v-model="titleX" placeholder="请输入你的标题" class="w-50 m-2" size="large">
+      <template #prepend><b>标题</b></template>
+    </el-input>
+  </div>
+  <br>
+  <div class="editor-div">
+    <v-md-editor v-model="noteDto.content"
+                 :disabled-menus="[]"
+                 @upload-image="handleUploadImage"
+                 @save="saveContent"
+                 @blurb="saveContent"
+                 height="100%"
+                 :include-level="[1,2,3,4,5,6]"
+                 :model="modeConfig"
+                 :update="update"
+    >
+    </v-md-editor>
+  </div>
+
 
 </template>
 
@@ -18,6 +27,8 @@ import {getCurrentInstance, ref} from 'vue';
 import {useRouter} from "vue-router";
 import {picUploadApi} from "@/api/mk-other-api"
 import {getUserInfo, Result} from "@/utils/CommonValidators";
+import {NoteDTO} from "@/utils/NotesValidatoes";
+import {saveNoteApi} from "@/api/mk-base-api";
 
 export default {
   props: {
@@ -26,13 +37,24 @@ export default {
       required: false,
       default: 'editable'
     },
-    update:{
+    update: {
       type: Boolean,
+      required: false,
+      default: false
+    },
+    titleX: {
+      type: String,
+      required: false,
+      default: false
+    },
+    text: {
+      type: String,
       required: false,
       default: false
     }
   },
   setup(props: any) {
+    let titleX = ref<any>('');
     //是否为更新
     let update = props.update;
     const text = ref('');
@@ -40,6 +62,12 @@ export default {
     const {proxy} = getCurrentInstance();
     const router = useRouter();
     //上传图片的方法
+    const noteDto = ref<NoteDTO>({
+      content: "",
+      noteId: "",
+      title: ""
+    })
+
     //@ts-ignore
     const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
       let formData = new FormData();
@@ -61,20 +89,29 @@ export default {
           })
     }
     const saveContent = (text: any, html: any) => {
+      noteDto.value.content = text;
+      noteDto.value.title = titleX;
+      console.log(noteDto.value);
       //todo:完成文本的上传
-      proxy.$axios.post("https://imissu.herokuapp.com/api/v1/auth/register", props.registerUser)
-          .then((res: any) => {
-            //注册成功
-            proxy.$message({
-              message: "注册成功",
-              type: "success"
-            });
-            router.push("/");
+      proxy.$axios.post(saveNoteApi, noteDto.value)
+          .then((res: Result) => {
+            //保存成功
+            if (res.data.code == 200)
+              proxy.$message({
+                message: "保存成功",
+                type: "success"
+              });
           })
     }
     return {
-      text, handleUploadImage, saveContent
+      text, handleUploadImage, saveContent, titleX, noteDto
     };
   },
 };
 </script>
+<style scoped>
+.editor-div {
+  position: relative;
+  height: calc(100% - 70px);
+}
+</style>

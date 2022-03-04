@@ -3,4 +3,4 @@ import {gatewayUrl} from './api-master'
 
 const baseUrl = gatewayUrl + "/mkbase"
 /*保存文章*/
-export const emailSendApi = baseUrl+"/base/save/note"
+export const saveNoteApi = baseUrl+"/base/save/note"

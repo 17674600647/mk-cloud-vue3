@@ -27,7 +27,9 @@ axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
 //响应拦截
 axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         endLoading();
+        console.log("返回值打印开始----------")
         console.log(JSON.stringify(response))
+        console.log("返回值打印结束----------")
         return response;
     }, error => {
         //错误提醒
