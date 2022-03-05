@@ -6,14 +6,10 @@
 
 <script>
 import MdEditor from '@/components/MdEditor.vue'
-import {onMounted, ref} from "vue";
-
-
 export default {
   name: "NewNote",
   components: {MdEditor}
 }
 </script>
-
 <style scoped>
 </style>

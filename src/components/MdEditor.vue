@@ -92,7 +92,7 @@ export default {
       noteDto.value.content = text;
       noteDto.value.title = titleX;
       console.log(noteDto.value);
-      //todo:完成文本的上传
+      //todo:完成文本的上传时候处理文件
       proxy.$axios.post(saveNoteApi, noteDto.value)
           .then((res: Result) => {
             //保存成功

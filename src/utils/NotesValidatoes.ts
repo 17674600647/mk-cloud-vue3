@@ -3,3 +3,8 @@ export interface NoteDTO {
     title: string,
     content: string
 }
+
+export interface GetNotesDTO {
+    pageSize: number,
+    currentPage: number,
+}

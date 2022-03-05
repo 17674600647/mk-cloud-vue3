@@ -5,7 +5,7 @@
   </button>
   <br>
   <button>
-    <router-link to="/menu/mdEditor">笔记编辑页</router-link>
+    <router-link to="/menu">笔记编辑页</router-link>
   </button>
 </template>
 <script>

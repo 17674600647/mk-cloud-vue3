@@ -22,7 +22,11 @@
           我的笔记
         </template>
         <el-menu-item-group>
-          <el-menu-item index="2-1">我的笔记</el-menu-item>
+          <el-menu-item index="2-1">
+            <router-link to="/menu/myNotes">
+              我的笔记
+            </router-link>
+          </el-menu-item>
           <el-menu-item index="2-2">
             <router-link to="/menu/newNote">
               新建笔记
