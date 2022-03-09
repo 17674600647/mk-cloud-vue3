@@ -20,7 +20,9 @@ import hljs from 'highlight.js';
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
 });
+
 const app = createApp(App);
+
 app.config.globalProperties.$axios = axios;
 app.use(store);
 app.use(router);

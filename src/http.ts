@@ -2,6 +2,8 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {ElLoading} from 'element-plus';
 import {StorageTokenStr} from "@/utils/CommonValidators";
+import {useRouter} from "vue-router";
+import {getCurrentInstance} from "vue";
 
 let loading: any;
 const startLoading: () => void = () => {
@@ -34,11 +36,13 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
     }, error => {
         //错误提醒
         endLoading();
+        const router = useRouter();
         //todo :完成没有权限就跳转到登录页
         if (error.response) {
             console.log("status:" + error.response.status)
             switch (error.response.status) {
                 case 401:
+                    //完善登录跳转
                     alert("身份认证失败~")
                     break;
                 default:

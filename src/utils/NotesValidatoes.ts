@@ -8,3 +8,6 @@ export interface GetNotesDTO {
     pageSize: number,
     currentPage: number,
 }
+export interface GetOneNoteDTO {
+    noteId: string
+}

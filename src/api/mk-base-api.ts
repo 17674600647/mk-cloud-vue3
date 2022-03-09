@@ -6,3 +6,4 @@ const baseUrl = gatewayUrl + "/mkbase"
 export const saveNoteApi = baseUrl+"/base/save/note"
 /*查询文章*/
 export const getNotesApi = baseUrl+"/base/get/notes"
+export const getOneNoteApi = baseUrl+"/base/get/one/note"

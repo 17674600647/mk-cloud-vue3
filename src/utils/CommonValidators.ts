@@ -20,9 +20,6 @@ export const saveStorage = (res: Result) => {
     sessionStorage.setItem(StorageAuthStr, res.data.data.authInfo)
 }
 
-
-
-
 export const getUserInfo = (): MkUser => {
     let item = sessionStorage.getItem(StorageAuthStr)
         // @ts-ignore

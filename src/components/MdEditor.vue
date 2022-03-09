@@ -1,6 +1,6 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="title-input-div">
-    <el-input v-model="titleX" placeholder="请输入你的标题" class="w-50 m-2" size="large">
+    <el-input v-model="noteDto.title" placeholder="请输入你的标题" class="w-50 m-2" size="large">
       <template #prepend><b>标题</b></template>
     </el-input>
   </div>
@@ -23,12 +23,13 @@
 </template>
 
 <script lang="ts">
-import {getCurrentInstance, ref} from 'vue';
-import {useRouter} from "vue-router";
+import {getCurrentInstance, onMounted, ref} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 import {picUploadApi} from "@/api/mk-other-api"
-import {getUserInfo, Result} from "@/utils/CommonValidators";
-import {NoteDTO} from "@/utils/NotesValidatoes";
-import {saveNoteApi} from "@/api/mk-base-api";
+import {Result} from "@/utils/CommonValidators";
+import {GetOneNoteDTO, NoteDTO} from "@/utils/NotesValidatoes";
+import {getOneNoteApi, saveNoteApi} from "@/api/mk-base-api";
+import {ElNotification} from "element-plus";
 
 export default {
   props: {
@@ -42,11 +43,6 @@ export default {
       required: false,
       default: false
     },
-    titleX: {
-      type: String,
-      required: false,
-      default: false
-    },
     text: {
       type: String,
       required: false,
@@ -54,13 +50,13 @@ export default {
     }
   },
   setup(props: any) {
-    let titleX = ref<any>('');
     //是否为更新
-    let update = props.update;
     const text = ref('');
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
+    const route = useRoute();
+
     //上传图片的方法
     const noteDto = ref<NoteDTO>({
       content: "",
@@ -89,22 +85,45 @@ export default {
           })
     }
     const saveContent = (text: any, html: any) => {
-      noteDto.value.content = text;
-      noteDto.value.title = titleX;
       console.log(noteDto.value);
       //todo:完成文本的上传时候处理文件
       proxy.$axios.post(saveNoteApi, noteDto.value)
           .then((res: Result) => {
             //保存成功
-            if (res.data.code == 200)
-              proxy.$message({
-                message: "保存成功",
-                type: "success"
-              });
+            if (res.data.code == 200){
+              noteDto.value.noteId = res.data.data;
+              ElNotification({
+                title: 'Success',
+                message: '保存成功',
+                type: 'success',
+              })
+            }
           })
     }
+
+    const queryNotes = (noteId: string) => {
+      const getOneNoteDTO = ref<GetOneNoteDTO>({
+        noteId: noteId
+      })
+      proxy.$axios.post(getOneNoteApi, getOneNoteDTO.value)
+          .then((res: Result) => {
+            //查询成功
+            if (res.data.code == 200) {
+              noteDto.value.title = res.data.data.title;
+              noteDto.value.content = res.data.data.content;
+              noteDto.value.noteId = res.data.data.id;
+            }
+          })
+    }
+    onMounted(() => {
+      let queryNoteID = route.query.noteId;
+      noteDto.value.noteId = <string>queryNoteID;
+      if (queryNoteID != null && queryNoteID != "" && props.update == true) {
+        proxy.queryNotes(noteDto.value.noteId);
+      }
+    })
     return {
-      text, handleUploadImage, saveContent, titleX, noteDto
+      text, handleUploadImage, saveContent, noteDto, queryNotes
     };
   },
 };
