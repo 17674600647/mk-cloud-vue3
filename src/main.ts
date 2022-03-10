@@ -8,6 +8,7 @@ import '@kangc/v-md-editor/lib/style/base-editor.css';
 // @ts-ignore
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
+import * as ElIcons from '@element-plus/icons'
 
 // Element-plus
 import ElementPlus from 'element-plus'
@@ -22,7 +23,9 @@ VueMarkdownEditor.use(githubTheme, {
 });
 
 const app = createApp(App);
-
+for (const name in ElIcons){
+    app.component(name,(ElIcons as any)[name])
+}
 app.config.globalProperties.$axios = axios;
 app.use(store);
 app.use(router);

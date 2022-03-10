@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%;width:100%">
-    <MdEditor :update="true"></MdEditor>
+    <MdEditor :update="true" :modeConfig="'preview'" :editShow="true"></MdEditor>
   </div>
 </template>
 

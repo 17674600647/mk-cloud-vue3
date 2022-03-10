@@ -1,8 +1,13 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="title-input-div">
-    <el-input v-model="noteDto.title" placeholder="请输入你的标题" class="w-50 m-2" size="large">
+    <el-input v-model="noteDto.title" placeholder="请输入你的标题" class="w-50 m-2" size="large" @blur="blurServe" :disabled="editMode.controlBtn">
       <template #prepend><b>标题</b></template>
+      <template #append>
+        <el-button type="primary" icon="Edit" v-show="editMode.controlBtn" @click="btnClick"> 编 辑</el-button>
+        <el-button type="primary" icon="Reading" v-show="!editMode.controlBtn" @click="btnClick"> 预 览</el-button>
+      </template>
     </el-input>
+
   </div>
   <br>
   <div class="editor-div">
@@ -10,13 +15,14 @@
                  :disabled-menus="[]"
                  @upload-image="handleUploadImage"
                  @save="saveContent"
-                 @blurb="saveContent"
+                 @blur="blurServe"
                  height="100%"
                  :include-level="[1,2,3,4,5,6]"
-                 :model="modeConfig"
-                 :update="update"
+                 :mode="editMode.controlMode"
+                 placeholder="在这里开始吧~"
     >
     </v-md-editor>
+
   </div>
 
 
@@ -27,7 +33,7 @@ import {getCurrentInstance, onMounted, ref} from 'vue';
 import {useRoute, useRouter} from "vue-router";
 import {picUploadApi} from "@/api/mk-other-api"
 import {Result} from "@/utils/CommonValidators";
-import {GetOneNoteDTO, NoteDTO} from "@/utils/NotesValidatoes";
+import {GetOneNoteDTO, ChangeMode, NoteDTO} from "@/utils/NotesValidatoes";
 import {getOneNoteApi, saveNoteApi} from "@/api/mk-base-api";
 import {ElNotification} from "element-plus";
 
@@ -37,8 +43,14 @@ export default {
       type: String,
       required: false,
       default: 'editable'
+
     },
     update: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    editShow: {
       type: Boolean,
       required: false,
       default: false
@@ -50,20 +62,30 @@ export default {
     }
   },
   setup(props: any) {
-    //是否为更新
-    const text = ref('');
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
     const route = useRoute();
-
+    const editMode = ref<ChangeMode>({
+      controlBtn: props.editShow,
+      controlMode: props.modeConfig,
+    })
+    const btnClick = () => {
+      //@ts-ignore
+      editMode.value.controlBtn = !editMode.value.controlBtn;
+      console.log(editMode.value.controlBtn)
+      if (editMode.value.controlBtn) {
+        editMode.value.controlMode = 'preview'
+      } else {
+        editMode.value.controlMode = 'editable'
+      }
+    }
     //上传图片的方法
     const noteDto = ref<NoteDTO>({
       content: "",
       noteId: "",
       title: ""
     })
-
     //@ts-ignore
     const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
       let formData = new FormData();
@@ -84,13 +106,17 @@ export default {
             });
           })
     }
+    const blurServe = (event: any) => {
+      saveContent(null, null);
+    }
+
     const saveContent = (text: any, html: any) => {
       console.log(noteDto.value);
       //todo:完成文本的上传时候处理文件
       proxy.$axios.post(saveNoteApi, noteDto.value)
           .then((res: Result) => {
             //保存成功
-            if (res.data.code == 200){
+            if (res.data.code == 200) {
               noteDto.value.noteId = res.data.data;
               ElNotification({
                 title: 'Success',
@@ -123,7 +149,7 @@ export default {
       }
     })
     return {
-      text, handleUploadImage, saveContent, noteDto, queryNotes
+      handleUploadImage, saveContent, noteDto, queryNotes, blurServe, btnClick, editMode
     };
   },
 };

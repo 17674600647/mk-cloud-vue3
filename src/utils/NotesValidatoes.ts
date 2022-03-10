@@ -11,3 +11,8 @@ export interface GetNotesDTO {
 export interface GetOneNoteDTO {
     noteId: string
 }
+
+export interface ChangeMode{
+    controlBtn: boolean
+    controlMode: string
+}
