@@ -4,6 +4,7 @@ import {ElLoading} from 'element-plus';
 import {StorageTokenStr} from "@/utils/CommonValidators";
 import {useRouter} from "vue-router";
 import {getCurrentInstance} from "vue";
+import {ElNotification} from "element-plus/es";
 
 let loading: any;
 const startLoading: () => void = () => {
@@ -32,6 +33,13 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         console.log("返回值打印开始----------")
         console.log(JSON.stringify(response))
         console.log("返回值打印结束----------")
+        if (response.data.code != 200) {
+            ElNotification({
+                title: 'Error',
+                message: response.data.message,
+                type: 'error',
+            })
+        }
         return response;
     }, error => {
         //错误提醒

@@ -9,24 +9,10 @@
         </el-table-column>
         <el-table-column label="操作">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-            >查看
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+              查看
             </el-button>
-            <el-popconfirm
-                confirm-button-text=" 删 除 "
-                cancel-button-text=" 取 消 "
-                icon-color="red"
-                title="是否删除?"
-                @confirm="handleDelete(scope.$index, scope.row)"
-            >
-              <template #reference>
-                <el-button
-                    size="small"
-                    type="danger"
-                >删除
-                </el-button>
-              </template>
-            </el-popconfirm>
+            <el-button size="small" type="success"  @click="handleRecover(scope.$index, scope.row)"> 恢 复 </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -47,7 +33,7 @@
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {deleteOneNoteApi, getNotesApi, getOneNoteApi} from "@/api/mk-base-api";
+import {deleteOneNoteApi, getDeleteNotesApi, getNotesApi, getOneNoteApi, recoverOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
 import {GetNotesDTO, GetOneNoteDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
@@ -69,14 +55,14 @@ export default {
       pageSize: 1
     })
     const handleSizeChange = (val: number) => {
-      handleCurrentChange(1);
+      proxy.handleCurrentChange(1);
     }
     const handleCurrentChange = (val: number) => {
       noteDto.value.currentPage = val;
       noteDto.value.pageSize = pageSize.value;
       console.log("开始查询:")
       console.log(noteDto.value)
-      proxy.$axios.post(getNotesApi, noteDto.value)
+      proxy.$axios.post(getDeleteNotesApi, noteDto.value)
           .then((res: Result) => {
             if (res.data.code == 200) {
               proxy.tableData = res.data.data.noteList;
@@ -100,18 +86,18 @@ export default {
           }
       );
     }
-    const handleDelete = (index: number, row: any) => {
+    const handleRecover = (index: number, row: any) => {
       console.log(index, row)
       const getOneNoteDTO = ref<GetOneNoteDTO>({
         noteId: row.id
       })
-      proxy.$axios.post(deleteOneNoteApi, getOneNoteDTO.value)
+      proxy.$axios.post(recoverOneNoteApi, getOneNoteDTO.value)
           .then((res: Result) => {
             //查询成功
             if (res.data.code == 200) {
               ElNotification({
                 title: 'Success',
-                message: '删除成功~',
+                message: '恢复成功~',
                 type: 'success',
               })
               handleCurrentChange(noteDto.value.currentPage);
@@ -128,7 +114,7 @@ export default {
       handleSizeChange,
       total,
       handleEdit,
-      handleDelete
+      handleRecover
     };
   }
 }

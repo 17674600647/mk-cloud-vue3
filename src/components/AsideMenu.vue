@@ -33,6 +33,11 @@
             </router-link>
           </el-menu-item>
           <el-menu-item index="2-3">我分享的</el-menu-item>
+          <el-menu-item index="2-2">
+            <router-link to="/menu/myDeleteNotes">
+              最近删除
+            </router-link>
+          </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="3">
