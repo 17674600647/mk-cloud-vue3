@@ -92,7 +92,7 @@ export default {
         noteId: row.id
       })
       proxy.$axios.post(recoverOneNoteApi, getOneNoteDTO.value)
-          .then((res: Result) => {
+          .then((res: any) => {
             //查询成功
             if (res.data.code == 200) {
               ElNotification({
@@ -103,7 +103,6 @@ export default {
               handleCurrentChange(noteDto.value.currentPage);
             }
           })
-
     }
     return {
       tableData,

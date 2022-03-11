@@ -9,8 +9,10 @@
           我的信息
         </template>
         <el-menu-item-group>
-          <template #title>这里写入用户ID</template>
-          <el-menu-item index="1-1">基本信息</el-menu-item>
+          <template #title>码克荡云笔记</template>
+          <el-menu-item index="1-1"> <router-link to="/menu/userInfo">
+            基本信息
+          </router-link></el-menu-item>
           <el-menu-item index="1-2">安全设置</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>

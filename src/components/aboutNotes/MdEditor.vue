@@ -7,7 +7,6 @@
         <el-button type="primary" icon="Reading" v-show="!editMode.controlBtn" @click="btnClick"> 预 览</el-button>
       </template>
     </el-input>
-
   </div>
   <br>
   <div class="editor-div">
@@ -15,7 +14,6 @@
                  :disabled-menus="[]"
                  @upload-image="handleUploadImage"
                  @save="saveContent"
-                 @blur="blurServe"
                  height="100%"
                  :include-level="[1,2,3,4,5,6]"
                  :mode="editMode.controlMode"
@@ -95,7 +93,7 @@ export default {
         headers: {'Content-Type': 'multipart/form-data'}
       };
       proxy.$axios.post(picUploadApi, formData, config)
-          .then((res: Result) => {
+          .then((res: any) => {
             console.log(res.data);
             // 此处只做示例
             insertImage({

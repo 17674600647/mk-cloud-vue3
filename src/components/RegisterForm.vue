@@ -113,13 +113,7 @@ export default {
                 message: "验证码已经发送到"+ props.registerUser.email+"请查收!!",
                 type: "success"
               });
-            } else {
-              proxy.$message({
-                message: res.data.message,
-                type: "error"
-              });
             }
-
           })
     }
     return {handleRegister,emailSend}

@@ -18,26 +18,32 @@ const routes: Array<RouteRecordRaw> = [
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
+                path: 'userInfo',
+                component: () => import( '../components/info/UserInfo.vue')
+            },
+            {
+                // 当 /user/:id/profile 匹配成功，
+                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'newNote',
-                component: () => import( '../components/NewNote.vue')
+                component: () => import( '../components/aboutNotes/NewNote.vue')
             },
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'myNotes',
-                component: () => import( '../components/MyNotes.vue')
+                component: () => import( '../components/aboutNotes/MyNotes.vue')
             },
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'BrowseNotes',
-                component: () => import( '../components/BrowseNotes.vue')
+                component: () => import( '../components/aboutNotes/BrowseNotes.vue')
             },
             {
                 // 当 /user/:id/profile 匹配成功，
                 // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'myDeleteNotes',
-                component: () => import( '../components/MyDeleteNotes.vue')
+                component: () => import( '../components/aboutNotes/MyDeleteNotes.vue')
             },
         ]
     }, {

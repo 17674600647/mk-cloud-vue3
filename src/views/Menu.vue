@@ -39,5 +39,6 @@ export default {
   color: var(--el-text-color-primary);
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 </style>

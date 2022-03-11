@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MdEditor from '@/components/MdEditor.vue'
+import MdEditor from '@/components/aboutNotes/MdEditor.vue'
 
 
 export default {
