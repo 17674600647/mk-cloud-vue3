@@ -2,7 +2,27 @@
   <el-container class="box-container">
     <el-aside class="box-aside">
       <el-card class="box-card">
-        <el-avatar :size="200" :src="userInfo.picUrl"></el-avatar>
+        <el-avatar :size="200" :src="userInfo.picUrl" :alt="'还未上传头像~'"></el-avatar>
+        <div style="width:100%;" align="center">
+
+          <el-upload
+              :action="headerPicUploadApi"
+              :show-file-list="false"
+              :auto-upload="true"
+              :on-success="uploadPicSuccess"
+              :on-error="uploadPicError"
+              :headers="headerPic"
+              :before-upload="beforeUpload"
+              :name="'file'"
+          >
+            <el-button size="small" @click="">
+              <el-icon :size="15">
+                <edit/>
+              </el-icon>
+              更换头像
+            </el-button>
+          </el-upload>
+        </div>
       </el-card>
     </el-aside>
     <el-main class="box-main">
@@ -86,10 +106,11 @@
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {getUserInfoApi} from "@/api/mk-user-api";
+import {getUserInfoApi, headerPicUploadApi} from "@/api/mk-user-api";
 import {ElNotification} from "element-plus";
-import {Result} from "@/utils/CommonValidators";
+import {Result, StorageTokenStr} from "@/utils/CommonValidators";
 import {UserInfo} from "@/utils/UserValidators";
+
 
 export default {
   name: "UserInfo",
@@ -130,7 +151,30 @@ export default {
     const editModel = () => {
 
     }
-    return {userInfo, editModel};
+    const uploadPicSuccess = () => {
+      ElNotification({
+        title: 'Success',
+        message: '上传头像成功~',
+        type: 'success',
+      })
+    }
+    const uploadPicError = () => {
+      ElNotification({
+        title: 'Error',
+        message: '上传头像失败~',
+        type: 'error',
+      })
+    }
+    const beforeUpload = (files: any) => {
+      console.log(files);
+      return true;
+    }
+
+    const headerPic = ref({
+      'Content-Type': 'multipart/form-data',
+      'token': localStorage.getItem(StorageTokenStr)
+    })
+    return {userInfo, editModel, headerPicUploadApi, uploadPicSuccess, headerPic, uploadPicError, beforeUpload};
   }
 }
 </script>

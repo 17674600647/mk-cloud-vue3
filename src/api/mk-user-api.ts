@@ -9,3 +9,6 @@ export const userLoginApi = baseUrl+"/base/login"
 // 获取用户信息
 export const getUserInfoApi = baseUrl+"/base/get/info"
 
+export const headerPicUploadApi = baseUrl+"/base/change/picUrl"
+
+
