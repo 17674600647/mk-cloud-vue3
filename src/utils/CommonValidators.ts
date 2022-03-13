@@ -22,13 +22,14 @@ export const saveStorage = (res: Result) => {
 
 export const getUserInfo = (): MkUser => {
     let item = sessionStorage.getItem(StorageAuthStr)
-        // @ts-ignore
-        let atob1 = atob(item);
-        return JSON.parse(decodeURI(atob1));
+    // @ts-ignore
+    let atob1 = atob(item);
+    return JSON.parse(decodeURI(atob1));
 
 }
 //获取localStorage的token
 export const getToken = () => {
     return sessionStorage.getItem(StorageTokenStr);
 }
+
 

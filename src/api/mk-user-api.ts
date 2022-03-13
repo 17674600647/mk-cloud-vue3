@@ -8,7 +8,7 @@ export const userRegisterApi = baseUrl+"/base/register"
 export const userLoginApi = baseUrl+"/base/login"
 // 获取用户信息
 export const getUserInfoApi = baseUrl+"/base/get/info"
-
+//头像更新接口
 export const headerPicUploadApi = baseUrl+"/base/change/picUrl"
 
 

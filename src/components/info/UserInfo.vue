@@ -35,11 +35,11 @@
             border
         >
           <template #extra>
-            <el-button type="primary" @click="editModel">
+            <el-button type="primary" @click="flashData">
               <el-icon :size="20">
-                <edit/>
+                <Loading/>
               </el-icon>
-              编 辑
+              刷 新
             </el-button>
           </template>
           <el-descriptions-item>
@@ -110,6 +110,7 @@ import {getUserInfoApi, headerPicUploadApi} from "@/api/mk-user-api";
 import {ElNotification} from "element-plus";
 import {Result, StorageTokenStr} from "@/utils/CommonValidators";
 import {UserInfo} from "@/utils/UserValidators";
+import {picUploadApi} from "@/api/mk-other-api";
 
 
 export default {
@@ -148,8 +149,8 @@ export default {
             }
           })
     }
-    const editModel = () => {
-
+    const flashData = () => {
+      getUserInfo();
     }
     const uploadPicSuccess = () => {
       ElNotification({
@@ -165,16 +166,31 @@ export default {
         type: 'error',
       })
     }
-    const beforeUpload = (files: any) => {
-      console.log(files);
-      return true;
+    const beforeUpload = (file: any) => {
+      console.log(file);
+      let formData = new FormData();
+      formData.append('file', file);
+      let config = {
+        headers: {'Content-Type': 'multipart/form-data'}
+      };
+      proxy.$axios.post(headerPicUploadApi, formData, config)
+          .then((res: any) => {
+            if (res.data.code == 200) {
+              ElNotification({
+                title: 'Success',
+                message: '头像修改成功~',
+                type: 'success',
+              })
+              flashData();
+            }
+          })
+      return false;
     }
-
     const headerPic = ref({
       'Content-Type': 'multipart/form-data',
       'token': localStorage.getItem(StorageTokenStr)
     })
-    return {userInfo, editModel, headerPicUploadApi, uploadPicSuccess, headerPic, uploadPicError, beforeUpload};
+    return {userInfo, flashData, headerPicUploadApi, uploadPicSuccess, headerPic, uploadPicError, beforeUpload};
   }
 }
 </script>
