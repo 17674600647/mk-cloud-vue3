@@ -15,7 +15,7 @@
               :before-upload="beforeUpload"
               :name="'file'"
           >
-            <el-button size="small" @click="">
+            <el-button size="small">
               <el-icon :size="15">
                 <edit/>
               </el-icon>
@@ -52,6 +52,12 @@
               </div>
             </template>
             {{ userInfo.nickName }}
+            <el-button size="small" @click="updateBtn(1)">
+              <el-icon :size="15">
+                <edit/>
+              </el-icon>
+              修改昵称
+            </el-button>
           </el-descriptions-item>
           <el-descriptions-item>
             <template #label>
@@ -74,6 +80,12 @@
               </div>
             </template>
             <el-tag size="large">{{ userInfo.age }}</el-tag>
+            <el-button size="small" @click="updateBtn(2)">
+              <el-icon :size="15">
+                <edit/>
+              </el-icon>
+              修改年龄
+            </el-button>
           </el-descriptions-item>
           <el-descriptions-item>
             <template #label>
@@ -96,28 +108,114 @@
               </div>
             </template>
             {{ userInfo.describe }}
+            <el-button size="small" @click="updateBtn(4)">
+              <el-icon :size="15">
+                <edit/>
+              </el-icon>
+              修改签名
+            </el-button>
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template #label>
+              <div class="cell-item">
+                <el-icon>
+                  <Lock/>
+                </el-icon>
+                密 码
+              </div>
+            </template>
+            <el-button size="small" @click="updateBtn(5)">
+              <el-icon :size="15">
+                <edit/>
+              </el-icon>
+              修改密码
+            </el-button>
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
     </el-main>
   </el-container>
+  <el-dialog v-model="dialogFormVisible" title="提示：" :top="'30vh'" :width="500" :center="true" :show-close="false"
+             @closed="dialogClose">
+    <el-form
+        ref="ruleFormRef"
+        :model="mkUserUpdate"
+        status-icon
+        label-width="120px"
+        class="demo-ruleForm"
+    >
+      <el-form-item label="昵称" v-show="mkUserUpdate.flag===1">
+        <el-input
+            v-model="mkUserUpdate.nickName"
+            placeholder="请输入你的新昵称~"
+        ></el-input>
+      </el-form-item>
 
+      <el-form-item label="年龄" v-show="mkUserUpdate.flag===2">
+        <el-input-number
+            v-model="mkUserUpdate.age"
+            :min="1"
+            :max="150"
+        ></el-input-number>
+      </el-form-item>
+
+      <el-form-item label="签名" prop="pass" v-show="mkUserUpdate.flag===4">
+        <el-input
+            v-model="mkUserUpdate.describe"
+            :rows="2"
+            type="textarea"
+            placeholder="写个签名吧~"
+        />
+      </el-form-item>
+      <el-form-item label="原始密码" v-show="mkUserUpdate.flag===5">
+        <el-input
+            v-model="mkUserUpdate.oldPassword"
+            type="password"
+            autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="密 码" v-show="mkUserUpdate.flag===5">
+        <el-input
+            v-model="mkUserUpdate.password"
+            type="password"
+            autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" v-show="mkUserUpdate.flag===5">
+        <el-input
+            v-model="mkUserUpdate.checkPass"
+            type="password"
+            autocomplete="off"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <!--按钮-->
+        <div style="width: 100%;float: right">
+          <el-button type="primary" @click="dialogFormVisible = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="updateInfo">
+            确认
+          </el-button>
+        </div>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {getUserInfoApi, headerPicUploadApi} from "@/api/mk-user-api";
+import {getUserInfoApi, headerPicUploadApi, updateInfoApi} from "@/api/mk-user-api";
 import {ElNotification} from "element-plus";
 import {Result, StorageTokenStr} from "@/utils/CommonValidators";
-import {UserInfo} from "@/utils/UserValidators";
-import {picUploadApi} from "@/api/mk-other-api";
-
+import {updateUserInfo, UserInfo} from "@/utils/UserValidators";
 
 export default {
   name: "UserInfo",
   setup() {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
+    const dialogFormVisible = ref(false);
     const userInfo = ref<UserInfo>({
       nickName: '',
       describe: '',
@@ -141,11 +239,11 @@ export default {
               })
               let info = res.data.data;
               userInfo.value.createTime = info.createTime;
-              userInfo.value.email = info.email;
-              userInfo.value.nickName = info.nickName;
-              userInfo.value.describe = info.describe;
+              mkUserUpdate.value.email = userInfo.value.email = info.email;
+              mkUserUpdate.value.nickName = userInfo.value.nickName = info.nickName;
+              mkUserUpdate.value.describe = userInfo.value.describe = info.describe;
               userInfo.value.picUrl = info.picUrl;
-              userInfo.value.age = res.data.data.age;
+              mkUserUpdate.value.age = userInfo.value.age = res.data.data.age;
             }
           })
     }
@@ -190,7 +288,65 @@ export default {
       'Content-Type': 'multipart/form-data',
       'token': localStorage.getItem(StorageTokenStr)
     })
-    return {userInfo, flashData, headerPicUploadApi, uploadPicSuccess, headerPic, uploadPicError, beforeUpload};
+    const mkUserUpdate = ref<updateUserInfo>({
+      age: 0,
+      oldPassword: "",
+      describe: "",
+      checkPass: "",
+      password: "",
+      email: "",
+      nickName: "",
+      flag: 0
+    })
+    const updateInfo = () => {
+      if (mkUserUpdate.value.flag == 5) {
+        if (mkUserUpdate.value.password !== mkUserUpdate.value.checkPass) {
+          ElNotification({
+            title: 'Error',
+            message: '两次密码不匹配~',
+            type: 'error',
+          })
+          return;
+        }
+      }
+      proxy.$axios.post(updateInfoApi, mkUserUpdate.value)
+          .then((res: Result) => {
+            //保存成功
+            if (res.data.code == 200) {
+              ElNotification({
+                title: 'Success',
+                message: '修改成功~',
+                type: 'success',
+              })
+              flashData();
+              proxy.dialogFormVisible = false;
+            }
+          })
+    }
+    const updateBtn = (flag: number) => {
+      proxy.dialogFormVisible = true
+      mkUserUpdate.value.flag = flag;
+    }
+    const dialogClose = () => {
+      mkUserUpdate.value.password = '';
+      mkUserUpdate.value.oldPassword = '';
+      mkUserUpdate.value.checkPass = '';
+    }
+
+    return {
+      userInfo,
+      flashData,
+      headerPicUploadApi,
+      uploadPicSuccess,
+      headerPic,
+      uploadPicError,
+      beforeUpload,
+      dialogFormVisible,
+      mkUserUpdate,
+      updateInfo,
+      updateBtn,
+      dialogClose
+    };
   }
 }
 </script>

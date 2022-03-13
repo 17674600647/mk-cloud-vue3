@@ -11,4 +11,5 @@ export const getUserInfoApi = baseUrl+"/base/get/info"
 //头像更新接口
 export const headerPicUploadApi = baseUrl+"/base/change/picUrl"
 
-
+//其他信息更新接口
+export const updateInfoApi = baseUrl+"/base/update/info"

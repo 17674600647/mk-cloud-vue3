@@ -1,6 +1,7 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="title-input-div">
-    <el-input v-model="noteDto.title" placeholder="请输入你的标题" class="w-50 m-2" size="large" @blur="blurServe" :disabled="editMode.controlBtn">
+    <el-input v-model="noteDto.title" placeholder="请输入你的标题" class="w-50 m-2" size="large"
+              :disabled="editMode.controlBtn">
       <template #prepend><b>标题</b></template>
       <template #append>
         <el-button type="primary" icon="Edit" v-show="editMode.controlBtn" @click="btnClick"> 编 辑</el-button>
@@ -104,9 +105,7 @@ export default {
             });
           })
     }
-    const blurServe = (event: any) => {
-      saveContent(null, null);
-    }
+
 
     const saveContent = (text: any, html: any) => {
       console.log(noteDto.value);
@@ -147,7 +146,7 @@ export default {
       }
     })
     return {
-      handleUploadImage, saveContent, noteDto, queryNotes, blurServe, btnClick, editMode
+      handleUploadImage, saveContent, noteDto, queryNotes, btnClick, editMode
     };
   },
 };

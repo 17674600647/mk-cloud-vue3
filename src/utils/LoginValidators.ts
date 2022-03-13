@@ -28,7 +28,7 @@ interface Rules {
 
 export const loginUser = ref<User>({
     account: "1044204713",
-    password: "123456788"
+    password: "1234567899"
 });
 export const rules = ref<Rules>({
     account: [
