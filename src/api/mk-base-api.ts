@@ -2,11 +2,34 @@
 import {gatewayUrl} from './api-master'
 
 const baseUrl = gatewayUrl + "/mkbase"
+
+/*------------base基础服务--------------------*/
 /*保存文章*/
 export const saveNoteApi = baseUrl+"/base/save/note"
 /*查询文章*/
 export const getNotesApi = baseUrl+"/base/get/notes"
+/*获取删除的文章列表*/
 export const getDeleteNotesApi = baseUrl+"/base/get/delete/notes"
+/*获取分享的文章列表*/
+export const getSharedNotesApi = baseUrl+"/base/get/shared/notes"
+/*分享文章*/
+export const shareOneNoteApi = baseUrl+"/base/to/share/note"
+/*取消分享文章*/
+export const disShareOneNoteApi = baseUrl+"/base/to/dishare/note"
+
+/*获取一个文章*/
 export const getOneNoteApi = baseUrl+"/base/get/one/note"
+/*删除一个被删除的文章*/
 export const deleteOneNoteApi = baseUrl+"/base/delete/one/note"
+/*恢复被删除的文章*/
 export const recoverOneNoteApi = baseUrl+"/base/recover/one/note"
+
+
+
+/*------------search服务--------------------*/
+const searchUrl="/search"
+/*搜索分享的文章标题与内容*/
+export const searchShareNotesApi = baseUrl+searchUrl+"/search/share/notes/"
+
+/*搜索分享的文章标题*/
+export const searchShareNoteTitleApi = baseUrl+searchUrl+"/search/share/notes/title"

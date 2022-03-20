@@ -42,7 +42,6 @@ export default {
       type: String,
       required: false,
       default: 'editable'
-
     },
     update: {
       type: Boolean,
@@ -99,7 +98,7 @@ export default {
             // 此处只做示例
             insertImage({
               url: res.data.data,
-              desc: '七龙珠',
+              desc: '这里插入图片描述~',
               width: 'auto',
               height: 'auto',
             });

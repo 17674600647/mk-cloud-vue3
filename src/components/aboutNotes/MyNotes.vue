@@ -1,11 +1,34 @@
 <template>
   <div style="position: relative;height:100%">
     <el-scrollbar style="height: calc(100% - 70px)">
-      <el-table :data='tableData' > stripe>
+      <el-table :data='tableData'> stripe>
         <el-table-column type="index" label="序号" width="70"/>
         <el-table-column prop="title" label="标题" width="200"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
-        <el-table-column prop="updateTime" label="修改时间">
+        <el-table-column prop="updateTime" label="修改时间"></el-table-column>
+        <el-table-column prop="shareStatus" label="分享状态" width="100">
+          <template #default="scope">
+            <div v-show="scope.row.shareStatus==-1">
+              <el-button size="small" @click="handleShare(scope.$index, scope.row)" type="primary">
+                去分享
+              </el-button>
+            </div>
+            <div v-show="scope.row.shareStatus==1">
+              <el-button size="small" type="success">
+                已分享
+              </el-button>
+            </div>
+            <div v-show="scope.row.shareStatus==0">
+              <el-button size="small" type="warning">
+                待审核
+              </el-button>
+            </div>
+            <div v-show="scope.row.shareStatus==2">
+              <el-button size="small" type="danger" @click="handleShare(scope.$index, scope.row)">
+                重新提交
+              </el-button>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="操作">
           <template #default="scope">
@@ -27,8 +50,10 @@
                 </el-button>
               </template>
             </el-popconfirm>
+
           </template>
         </el-table-column>
+
       </el-table>
     </el-scrollbar>
     <el-pagination
@@ -47,7 +72,7 @@
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {deleteOneNoteApi, getNotesApi, getOneNoteApi} from "@/api/mk-base-api";
+import {deleteOneNoteApi, getNotesApi, getOneNoteApi, shareOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
 import {GetNotesDTO, GetOneNoteDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
@@ -117,6 +142,35 @@ export default {
               handleCurrentChange(noteDto.value.currentPage);
             }
           })
+    }
+    const handleShare = (index: number, row: any) => {
+      console.log(index, row)
+      const getOneNoteDTO = ref<GetOneNoteDTO>({
+        noteId: row.id
+      })
+      proxy.$axios.post(shareOneNoteApi, getOneNoteDTO.value)
+          .then((res: Result) => {
+            //查询成功
+            if (res.data.code == 200) {
+              ElNotification({
+                title: 'Success',
+                message: '分享申请已经提交~，待审核~',
+                type: 'success',
+              })
+              handleCurrentChange(noteDto.value.currentPage);
+            }
+          })
+    }
+    const showShareBtn = (status: any) => {
+      if (status == 1) {
+        return false;
+      }
+      if (status == 0) {
+        return false;
+      }
+      if (status == -1) {
+        return true;
+      }
 
     }
     return {
@@ -128,7 +182,9 @@ export default {
       handleSizeChange,
       total,
       handleEdit,
-      handleDelete
+      handleDelete,
+      handleShare,
+      showShareBtn
     };
   }
 }

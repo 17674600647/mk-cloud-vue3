@@ -40,11 +40,20 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import( '../components/aboutNotes/BrowseNotes.vue')
             },
             {
-                // 当 /user/:id/profile 匹配成功，
-                // UserProfile 会被渲染在 User 的 <router-view> 中
                 path: 'myDeleteNotes',
                 component: () => import( '../components/aboutNotes/MyDeleteNotes.vue')
+            },{
+                path: 'MySharedNotes',
+                component: () => import( '../components/aboutNotes/MySharedNotes.vue')
+            },{
+                path: 'SearchNote',
+                component: () => import( '../components/aboutNotes/SearchNote.vue')
             },
+            {
+                path: 'SearchTheNotes',
+                component: () => import( '../components/aboutNotes/SearchTheNotes.vue'),
+                meta: { transition: 'slide-left' }
+            }
         ]
     }, {
         path: '/:catchAll(.*)',
