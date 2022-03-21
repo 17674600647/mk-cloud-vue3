@@ -118,7 +118,6 @@ export default {
   position: relative;
   width: 50%;
   height: 30px;
-  border: 1px solid black;
   margin: 0 auto;
   bottom: 0;
   z-index: 30;
@@ -127,7 +126,7 @@ export default {
 .box-cardX {
   position: absolute;
   width: calc(100% - 85px);
-  height: 218px;
+  height: 206px;
   top: 45px;
   --el-card-padding: 0;
   z-index: 30;
@@ -145,7 +144,7 @@ export default {
 
 .title-item {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .title-item:hover {

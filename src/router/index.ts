@@ -52,7 +52,10 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'SearchTheNotes',
                 component: () => import( '../components/aboutNotes/SearchTheNotes.vue'),
-                meta: { transition: 'slide-left' }
+            },
+            {
+                path: 'BrowseOthersNotes',
+                component: () => import( '../components/aboutNotes/BrowseOthersNotes.vue'),
             }
         ]
     }, {

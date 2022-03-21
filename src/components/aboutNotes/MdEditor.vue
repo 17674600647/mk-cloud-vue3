@@ -4,8 +4,10 @@
               :disabled="editMode.controlBtn">
       <template #prepend><b>标题</b></template>
       <template #append>
-        <el-button type="primary" icon="Edit" v-show="editMode.controlBtn" @click="btnClick"> 编 辑</el-button>
-        <el-button type="primary" icon="Reading" v-show="!editMode.controlBtn" @click="btnClick"> 预 览</el-button>
+        <div v-show="!editMode.controlBrowser">
+          <el-button type="primary" icon="Edit" v-show="editMode.controlBtn" @click="btnClick"> 编 辑</el-button>
+          <el-button type="primary" icon="Reading" v-show="!editMode.controlBtn" @click="btnClick"> 预 览</el-button>
+        </div>
       </template>
     </el-input>
   </div>
@@ -48,6 +50,11 @@ export default {
       required: false,
       default: false
     },
+    browser: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     editShow: {
       type: Boolean,
       required: false,
@@ -66,7 +73,8 @@ export default {
     const route = useRoute();
     const editMode = ref<ChangeMode>({
       controlBtn: props.editShow,
-      controlMode: props.modeConfig,
+      controlBrowser: props.browser,
+      controlMode: props.modeConfig
     })
     const btnClick = () => {
       //@ts-ignore
@@ -145,7 +153,7 @@ export default {
       }
     })
     return {
-      handleUploadImage, saveContent, noteDto, queryNotes, btnClick, editMode
+      handleUploadImage, saveContent, noteDto, queryNotes, btnClick, editMode,
     };
   },
 };

@@ -93,7 +93,7 @@ export default {
     const browseNote = (item: any) => {
       router.push({
             //传递参数使用query的话，指定path或者name都行，但使用params的话，只能使用name指定
-            path: '/menu/BrowseNotes',
+            path: '/menu/BrowseOthersNotes',
             query: {
               noteId: item.id
             }
@@ -199,7 +199,7 @@ export default {
   position: relative;
   width: 50%;
   height: 100%;
-  border: 1px solid black;
+
   margin: 0 auto;
   bottom: 0;
   z-index: 30;
@@ -208,7 +208,7 @@ export default {
 .box-cardX {
   position: absolute;
   width: calc(100% - 85px);
-  height: 218px;
+  height: 206px;
   top: 45px;
   --el-card-padding: 0;
   z-index: 30;
@@ -226,7 +226,7 @@ export default {
 
 .title-item {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .title-item:hover {

@@ -16,6 +16,7 @@ export interface GetOneNoteDTO {
 export interface ChangeMode {
     controlBtn: boolean
     controlMode: string
+    controlBrowser: boolean;
 }
 
 export interface SearchNotesDTO {
@@ -23,6 +24,7 @@ export interface SearchNotesDTO {
     pageSize: number,
     currentPage: number,
 }
+
 export interface NoteInfoDTO {
     noteId: string,
     title: string,
