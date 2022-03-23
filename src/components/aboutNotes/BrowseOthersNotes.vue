@@ -61,7 +61,7 @@
             </el-descriptions-item>
           </el-descriptions>
           <div>
-            <el-button circle  width="30" height="30">
+            <el-button circle width="30" height="30">
               <el-icon size="30" color="gray">
                 <star/>
               </el-icon>
@@ -73,16 +73,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import MdEditor from '@/components/aboutNotes/MdEditor.vue'
-import UserInfo from "@/components/info/UserInfo";
-import {ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
+import {getNotesOwnerInfoApi} from "@/api/mk-user-api";
+import {ElNotification} from "element-plus/es";
+import {Result} from "@/utils/CommonValidators";
+import {useRoute} from "vue-router";
+import {UserInfo} from "@/utils/UserValidators";
+import {GetOneNoteDTO} from "@/utils/NotesValidatoes";
+
 
 
 export default {
   name: "BrowseNotes",
-  components: {MdEditor, UserInfo},
+  components: {MdEditor},
   setup() {
+    //@ts-ignore
+    const {proxy} = getCurrentInstance();
     const userInfo = ref<UserInfo>({
       nickName: '',
       describe: '',
@@ -90,6 +98,36 @@ export default {
       createTime: '',
       email: '',
       picUrl: null
+    })
+    const route = useRoute();
+    const getNotesOwnerInfo = () => {
+      const noteIdOth=ref<GetOneNoteDTO>({
+        noteId: ""
+      })
+      noteIdOth.value.noteId = <string>route.query.noteId;
+      if (noteIdOth.value.noteId == null) {
+        return;
+      }
+      proxy.$axios.post(getNotesOwnerInfoApi, noteIdOth.value)
+          .then((res: Result) => {
+            //保存成功
+            if (res.data.code == 200) {
+              ElNotification({
+                title: 'Success',
+                message: '查询用户成功~',
+                type: 'success',
+              })
+            }
+            let dataX = res.data.data;
+            userInfo.value.nickName =dataX.nickName;
+            userInfo.value.describe =dataX.describe;
+            userInfo.value.age =dataX.age;
+            userInfo.value.createTime =dataX.createTime;
+            userInfo.value.picUrl =dataX.picUrl;
+          })
+    }
+    onMounted(() => {
+      getNotesOwnerInfo();
     })
     return {userInfo}
   }
@@ -116,7 +154,7 @@ export default {
   max-width: 250px;
   min-width: 250px;
   overflow: hidden;
-  border: 1px solid red;
+
 }
 
 .box-card {

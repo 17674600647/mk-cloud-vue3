@@ -13,3 +13,5 @@ export const headerPicUploadApi = baseUrl+"/base/change/picUrl"
 
 //其他信息更新接口
 export const updateInfoApi = baseUrl+"/base/update/info"
+//获取分享的文章的接口
+export const getNotesOwnerInfoApi = baseUrl+"/base/get/mknote/info"

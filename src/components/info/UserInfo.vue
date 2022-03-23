@@ -158,7 +158,6 @@
             :max="150"
         ></el-input-number>
       </el-form-item>
-
       <el-form-item label="签名" prop="pass" v-show="mkUserUpdate.flag===4">
         <el-input
             v-model="mkUserUpdate.describe"
