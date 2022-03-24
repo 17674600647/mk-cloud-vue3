@@ -56,6 +56,10 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'BrowseOthersNotes',
                 component: () => import( '../components/aboutNotes/BrowseOthersNotes.vue'),
+            },
+            {
+                path: 'CollectionNotes',
+                component: () => import( '../components/aboutNotes/CollectionNotes.vue'),
             }
         ]
     }, {

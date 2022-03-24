@@ -24,8 +24,12 @@ export const deleteOneNoteApi = baseUrl+"/base/delete/one/note"
 /*恢复被删除的文章*/
 export const recoverOneNoteApi = baseUrl+"/base/recover/one/note"
 
-
-
+/*收藏一个文章*/
+export const collectOneNoteApi = baseUrl+"/base/to/collect/note"
+/*取消收藏文章*/
+export const disCollectOneNoteApi = baseUrl+"/base/to/disCollect/note"
+/*收藏的文章列表*/
+export const getCollectNotesApi = baseUrl+"/base/query/collect/notes"
 /*------------search服务--------------------*/
 const searchUrl="/search"
 /*搜索分享的文章标题与内容*/

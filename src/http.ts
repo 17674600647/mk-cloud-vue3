@@ -52,6 +52,14 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
                 case 401:
                     //完善登录跳转
                     alert("身份认证失败~")
+                    router.push({
+                            //传递参数使用query的话，指定path或者name都行，但使用params的话，只能使用name指定
+                            path: '/login',
+                            query: {
+                                auth: "noAuth"
+                            }
+                        }
+                    );
                     break;
                 default:
                     alert("未知错误~")

@@ -61,7 +61,7 @@
             </el-descriptions-item>
           </el-descriptions>
           <div>
-            <el-button circle width="30" height="30">
+            <el-button circle width="30" height="30" @click="collectNote()">
               <el-icon size="30" color="gray">
                 <star/>
               </el-icon>
@@ -82,7 +82,7 @@ import {Result} from "@/utils/CommonValidators";
 import {useRoute} from "vue-router";
 import {UserInfo} from "@/utils/UserValidators";
 import {GetOneNoteDTO} from "@/utils/NotesValidatoes";
-
+import {collectOneNoteApi, getCollectNotesApi} from "@/api/mk-base-api";
 
 
 export default {
@@ -101,7 +101,7 @@ export default {
     })
     const route = useRoute();
     const getNotesOwnerInfo = () => {
-      const noteIdOth=ref<GetOneNoteDTO>({
+      const noteIdOth = ref<GetOneNoteDTO>({
         noteId: ""
       })
       noteIdOth.value.noteId = <string>route.query.noteId;
@@ -119,17 +119,40 @@ export default {
               })
             }
             let dataX = res.data.data;
-            userInfo.value.nickName =dataX.nickName;
-            userInfo.value.describe =dataX.describe;
-            userInfo.value.age =dataX.age;
-            userInfo.value.createTime =dataX.createTime;
-            userInfo.value.picUrl =dataX.picUrl;
+            userInfo.value.nickName = dataX.nickName;
+            userInfo.value.describe = dataX.describe;
+            userInfo.value.age = dataX.age;
+            userInfo.value.createTime = dataX.createTime;
+            userInfo.value.picUrl = dataX.picUrl;
+          })
+    }
+
+    const collectNote = () => {
+      const noteIdOth = ref<GetOneNoteDTO>({
+        noteId: ""
+      })
+      noteIdOth.value.noteId = <string>route.query.noteId;
+      if (noteIdOth.value.noteId == null) {
+        return;
+      }
+      proxy.$axios.post(collectOneNoteApi, noteIdOth.value)
+          .then((res: Result) => {
+            if (res.data.code == 200) {
+              ElNotification({
+                title: 'Success',
+                message: '收藏成功~',
+                type: 'success',
+              })
+            }
           })
     }
     onMounted(() => {
       getNotesOwnerInfo();
     })
-    return {userInfo}
+    return {
+      userInfo,
+      collectNote
+    }
   }
 }
 </script>

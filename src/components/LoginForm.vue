@@ -38,6 +38,7 @@
 import {getCurrentInstance} from "vue";
 import {userLoginApi} from "@/api/mk-user-api";
 import {Result, saveStorage, StorageAuthStr, StorageTokenStr} from "@/utils/CommonValidators";
+import {useRoute, useRouter} from "vue-router";
 
 export default {
   name: "LoginForm",
@@ -54,6 +55,8 @@ export default {
   setup(props: any) {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
+    const route = useRoute();
+    const router = useRouter();
     //触发登录方法
     const handleLogin = (formName: string) => {
       proxy.$refs[formName].validate((valid: boolean) => {
@@ -64,12 +67,13 @@ export default {
                 //发送成功
                 if (res.data.code == 200) {
                   saveStorage(res);
-
                   proxy.$message({
                     message: res.data.message,
                     type: "success"
                   });
-
+                  if (route.query.auth==="noAuth"){
+                      router.go(-1);
+                  }
                 } else {
                   proxy.$message({
                     message: res.data.message,

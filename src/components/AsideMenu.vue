@@ -46,6 +46,11 @@
             </router-link>
           </el-menu-item>
           <el-menu-item index="2-2">
+            <router-link to="/menu/CollectionNotes">
+              我收藏的
+            </router-link>
+          </el-menu-item>
+          <el-menu-item index="2-4">
             <router-link to="/menu/myDeleteNotes">
               最近删除
             </router-link>
@@ -66,15 +71,7 @@
               搜寻佳记
             </router-link>
           </el-menu-item>
-          <el-menu-item index="3-2">Option 2</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="Group 2">
-          <el-menu-item index="3-3">Option 3</el-menu-item>
-        </el-menu-item-group>
-        <el-sub-menu index="3-4">
-          <template #title>Option 4</template>
-          <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-        </el-sub-menu>
       </el-sub-menu>
     </el-menu>
   </el-scrollbar>
