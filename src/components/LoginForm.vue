@@ -71,7 +71,7 @@ export default {
                     message: res.data.message,
                     type: "success"
                   });
-                  if (route.query.auth==="noAuth"){
+                  if (route.query.auth=="0"){
                       router.go(-1);
                   }
                 } else {

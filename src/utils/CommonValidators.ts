@@ -25,7 +25,6 @@ export const getUserInfo = (): MkUser => {
     // @ts-ignore
     let atob1 = atob(item);
     return JSON.parse(decodeURI(atob1));
-
 }
 //获取localStorage的token
 export const getToken = () => {

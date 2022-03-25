@@ -2,9 +2,9 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {ElLoading} from 'element-plus';
 import {StorageTokenStr} from "@/utils/CommonValidators";
-import {useRouter} from "vue-router";
-import {getCurrentInstance} from "vue";
+import {createRouter, createWebHashHistory} from "vue-router";
 import {ElNotification} from "element-plus/es";
+import router from "@/router/index.ts"
 
 let loading: any;
 const startLoading: () => void = () => {
@@ -18,6 +18,7 @@ const startLoading: () => void = () => {
 const endLoading: () => void = () => {
     loading.close();
 }
+
 //请求拦截
 axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
     //加载动画开始
@@ -26,7 +27,6 @@ axios.interceptors.request.use((config: AxiosRequestConfig<any>) => {
     config.headers.token = localStorage.getItem(StorageTokenStr);
     return config;
 })
-
 //响应拦截
 axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         endLoading();
@@ -42,9 +42,9 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         }
         return response;
     }, error => {
+
         //错误提醒
         endLoading();
-        const router = useRouter();
         //todo :完成没有权限就跳转到登录页
         if (error.response) {
             console.log("status:" + error.response.status)
@@ -52,11 +52,12 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
                 case 401:
                     //完善登录跳转
                     alert("身份认证失败~")
+                    // @ts-ignore
                     router.push({
                             //传递参数使用query的话，指定path或者name都行，但使用params的话，只能使用name指定
                             path: '/login',
                             query: {
-                                auth: "noAuth"
+                                auth: "0"
                             }
                         }
                     );
