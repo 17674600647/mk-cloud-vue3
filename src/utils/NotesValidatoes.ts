@@ -8,10 +8,20 @@ export interface GetNotesDTO {
     pageSize: number,
     currentPage: number,
 }
+export interface GetNotesByShareStatusDTO {
+    pageSize: number,
+    currentPage: number,
+    shareStatus:number
+}
 
 export interface GetOneNoteDTO {
     noteId: string
 }
+export interface UpdateNoteStatusDTO {
+    noteId: string,
+    shareStatus:number
+}
+
 
 export interface ChangeMode {
     controlBtn: boolean

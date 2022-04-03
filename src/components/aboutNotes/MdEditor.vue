@@ -23,9 +23,7 @@
                  placeholder="在这里开始吧~"
     >
     </v-md-editor>
-
   </div>
-
 
 </template>
 
@@ -49,6 +47,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    noteId: {
+      type: String,
+      required: false,
+      default: ''
     },
     browser: {
       type: Boolean,
@@ -147,8 +150,12 @@ export default {
     }
     onMounted(() => {
       let queryNoteID = route.query.noteId;
-      noteDto.value.noteId = <string>queryNoteID;
       if (queryNoteID != null && queryNoteID != "" && props.update == true) {
+        noteDto.value.noteId = <string>queryNoteID;
+        proxy.queryNotes(noteDto.value.noteId);
+      }
+      if (props.noteId!=''){
+        noteDto.value.noteId = props.noteId;
         proxy.queryNotes(noteDto.value.noteId);
       }
     })

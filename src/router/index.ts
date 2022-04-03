@@ -60,6 +60,18 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'CollectionNotes',
                 component: () => import( '../components/aboutNotes/CollectionNotes.vue'),
+            },
+            {
+                path: 'UserTable',
+                component: () => import( '../components/admin/manage/UserTable.vue'),
+            },
+            {
+                path: 'NotesTable',
+                component: () => import( '../components/admin/manage/NotesTable.vue'),
+            },
+            {
+                path: 'NotesTableAudit',
+                component: () => import( '../components/admin/manage/NotesTableAudit.vue'),
             }
         ]
     }, {

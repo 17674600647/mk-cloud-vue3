@@ -42,7 +42,6 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
         }
         return response;
     }, error => {
-
         //错误提醒
         endLoading();
         //todo :完成没有权限就跳转到登录页

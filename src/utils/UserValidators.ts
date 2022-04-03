@@ -17,3 +17,16 @@ export interface updateUserInfo {
     email: string;
     flag: number;
 }
+export interface GetUserPageDTO {
+    pageSize: number,
+    currentPage: number,
+    status: number,
+}
+export interface GetUserByIdDTO {
+    userId: string
+}
+export interface UpdateStatusDTO {
+    userId: string,
+    status: number,
+}
+

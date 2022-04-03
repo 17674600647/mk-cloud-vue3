@@ -5,7 +5,7 @@
         <el-page-header :icon="ArrowLeft" content="返回" @back="goBack"/>
       </el-breadcrumb>
       <el-divider/>
-      <el-sub-menu index="1">
+      <el-sub-menu index="1" v-show="role===1">
         <template #title>
           <el-icon>
             <Message/>
@@ -22,7 +22,7 @@
           <el-menu-item index="1-2">安全设置</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-sub-menu index="2">
+      <el-sub-menu index="2" v-show="role===1">
         <template #title>
           <el-icon>
             <Lock/>
@@ -57,7 +57,7 @@
           </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-sub-menu index="3">
+      <el-sub-menu index="3" v-show="role===1">
         <template #title>
           <el-icon>
             <setting/>
@@ -73,16 +73,62 @@
           </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
+      <!--管理员权限-->
+      <el-sub-menu index="4" v-show="role===2">
+        <template #title>
+          <el-icon>
+            <setting/>
+          </el-icon>
+          运营审核
+        </template>
+        <el-menu-item-group>
+          <template #title>运营管理</template>
+          <el-menu-item index="4-1">
+            <router-link to="/menu/UserTable">
+              用户管理
+            </router-link>
+          </el-menu-item>
+          <el-menu-item index="4-3">
+            <router-link to="/menu/NotesTable">
+              文章管理
+            </router-link>
+          </el-menu-item>
+          <el-menu-item index="4-2">
+            <router-link to="/menu/NotesTableAudit">
+              文章审核
+            </router-link>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-sub-menu>
+      <el-sub-menu index="5" v-show="role===2">
+        <template #title>
+          <el-icon>
+            <setting/>
+          </el-icon>
+          运营数据
+        </template>
+        <el-menu-item-group>
+          <template #title>运营管理</template>
+          <el-menu-item index="5-1">
+            <router-link to="/menu/SearchNote">
+              用户管理
+            </router-link>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-sub-menu>
     </el-menu>
   </el-scrollbar>
 </template>
-
 <script lang="ts">
 import {Message, Menu as IconMenu, Setting} from '@element-plus/icons-vue'
 import {ArrowLeft} from '@element-plus/icons-vue'
-import {getCurrentInstance} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import {Menu} from "@element-plus/icons";
 import {useRouter} from "vue-router";
+import {collectOneNoteApi} from "@/api/mk-base-api";
+import {Result} from "@/utils/CommonValidators";
+import {ElNotification} from "element-plus/es";
+import {getUserAuthApi} from "@/api/mk-user-api";
 
 export default {
   setup(props: any) {
@@ -92,7 +138,21 @@ export default {
     const goBack = () => {
       router.go(-1);
     }
+    const role = ref();
+    const queryRole = () => {
+      proxy.$axios.post(getUserAuthApi)
+          .then((res: Result) => {
+            if (res.data.code == 200) {
+              proxy.role = res.data.data.role
+            }
+          })
+    }
+    onMounted(() => {
+      queryRole();
+    })
+
     return {
+      role,
       ArrowLeft,
       Message,
       Setting,

@@ -8,6 +8,7 @@ const baseUrl = gatewayUrl + "/mkbase"
 export const saveNoteApi = baseUrl+"/base/save/note"
 /*查询文章*/
 export const getNotesApi = baseUrl+"/base/get/notes"
+
 /*获取删除的文章列表*/
 export const getDeleteNotesApi = baseUrl+"/base/get/delete/notes"
 /*获取分享的文章列表*/
@@ -19,7 +20,7 @@ export const disShareOneNoteApi = baseUrl+"/base/to/dishare/note"
 
 /*获取一个文章*/
 export const getOneNoteApi = baseUrl+"/base/get/one/note"
-/*删除一个被删除的文章*/
+/*删除一个文章*/
 export const deleteOneNoteApi = baseUrl+"/base/delete/one/note"
 /*恢复被删除的文章*/
 export const recoverOneNoteApi = baseUrl+"/base/recover/one/note"
@@ -37,3 +38,18 @@ export const searchShareNotesApi = baseUrl+searchUrl+"/search/share/notes/"
 
 /*搜索分享的文章标题*/
 export const searchShareNoteTitleApi = baseUrl+searchUrl+"/search/share/notes/title"
+/*------------管理员--------------------*/
+/*根据状态查询文章*/
+export const getNotesByStatusApi = baseUrl+"/manager/get/notes/by/status"
+/**
+ * 管理员删除一篇文章
+ */
+export const adminDeleteOneApi = baseUrl+"/manager/delete/one/note"
+/**
+ * 管理员恢复一篇文章
+ */
+export const adminRecoverOneApi = baseUrl+"/manager/recover/one/note"
+/**
+ * 更新用户状态
+ */
+export const updateNoteStatusApi = baseUrl + "/manager/update/note/status"

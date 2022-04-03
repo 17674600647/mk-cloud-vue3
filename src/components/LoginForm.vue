@@ -73,6 +73,8 @@ export default {
                   });
                   if (route.query.auth=="0"){
                       router.go(-1);
+                  }else {
+                    router.push("/menu")
                   }
                 } else {
                   proxy.$message({

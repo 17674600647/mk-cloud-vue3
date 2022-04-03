@@ -9,6 +9,8 @@ import MdEditor from '@/components/aboutNotes/MdEditor.vue'
 
 export default {
   name: "BrowseNotes",
+  props: {
+  },
   components: {MdEditor},
   setup() {
 

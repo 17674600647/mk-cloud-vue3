@@ -211,7 +211,9 @@ import {updateUserInfo, UserInfo} from "@/utils/UserValidators";
 
 export default {
   name: "UserInfo",
-  setup() {
+  props: {
+  },
+  setup(props:any) {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const dialogFormVisible = ref(false);
