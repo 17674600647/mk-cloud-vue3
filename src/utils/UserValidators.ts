@@ -21,6 +21,7 @@ export interface GetUserPageDTO {
     pageSize: number,
     currentPage: number,
     status: number,
+    content: string
 }
 export interface GetUserByIdDTO {
     userId: string

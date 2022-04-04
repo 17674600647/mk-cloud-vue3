@@ -1,14 +1,27 @@
 <template>
-  <div style="position: relative;height:100%">
-    <el-select v-model="userPageDTO.status" class="m-2" placeholder="选择帐号状态~" style="margin-right: 16px" @change="handleSizeChange">
-      <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-
-      />
-    </el-select>
+  <div style="position: relative;height:100%;width: 100%">
+    <div style="position: relative;width: 400px;margin-right: 0px">
+      <el-select v-model="userPageDTO.status" class="m-2" placeholder="选择帐号状态~" style="margin-right: 16px"
+                 @change="handleSizeChange">
+        <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+        />
+      </el-select>
+    </div>
+    <div style="position: relative;width: 400px;margin-right: 0px">
+      <el-input
+          v-model="userPageDTO.content"
+          placeholder="搜索id或者用户名或者邮箱"
+          class="input-with-select"
+      >
+        <template #append>
+          <el-button :icon="Search" @click="searchByKeyword()"/>
+        </template>
+      </el-input>
+    </div>
     <el-scrollbar style="height: calc(100% - 70px)">
       <el-table :data='tableData'> stripe>
         <el-table-column type="id" prop="id" label="用户ID" width="200"/>
@@ -79,10 +92,11 @@
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {deleteOneNoteApi, getNotesApi, getOneNoteApi, shareOneNoteApi} from "@/api/mk-base-api";
+import {shareOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
-import {GetNotesDTO, GetOneNoteDTO} from "@/utils/NotesValidatoes";
+import {GetOneNoteDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
+import {Search} from '@element-plus/icons-vue'
 import {ElNotification} from "element-plus";
 import {GetUserPageDTO, UpdateStatusDTO} from "@/utils/UserValidators";
 import {getAllUsersByStatusApi, updateUserStatusApi} from "@/api/mk-user-api";
@@ -105,6 +119,7 @@ export default {
     const userPageDTO = ref<GetUserPageDTO>({
       status: 2,
       currentPage: 10,
+      content: "",
       pageSize: 1
     })
 
@@ -156,7 +171,10 @@ export default {
     const handleNormal = (index: number, row: any) => {
       ChangeStatus(index, row, 1);
     }
-
+    const searchByKeyword = () => {
+      userPageDTO.value.currentPage=1;
+      handleCurrentChange(userPageDTO.value.currentPage);
+    }
 
     const ChangeStatus = (index: number, row: any, status: number) => {
       console.log(index, row)
@@ -234,7 +252,9 @@ export default {
       handleShare,
       showShareBtn,
       drawerFlag,
-      userId
+      userId,
+      Search,
+      searchByKeyword
     };
   }
 }
