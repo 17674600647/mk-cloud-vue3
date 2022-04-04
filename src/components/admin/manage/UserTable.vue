@@ -14,7 +14,7 @@
     <div style="position: relative;width: 400px;margin-right: 0px">
       <el-input
           v-model="userPageDTO.content"
-          placeholder="搜索id或者用户名或者邮箱"
+          placeholder="搜索昵称或者用户名或者邮箱"
           class="input-with-select"
       >
         <template #append>
@@ -22,7 +22,7 @@
         </template>
       </el-input>
     </div>
-    <el-scrollbar style="height: calc(100% - 70px)">
+    <el-scrollbar style="height: calc(100% - 110px)">
       <el-table :data='tableData'> stripe>
         <el-table-column type="id" prop="id" label="用户ID" width="200"/>
         <el-table-column prop="username" label="用户名" width="200"></el-table-column>

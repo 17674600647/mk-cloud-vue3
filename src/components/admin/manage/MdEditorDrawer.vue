@@ -68,10 +68,6 @@ export default {
             userInfo.value.picUrl = dataX.picUrl;
           })
     }
-
-
-
-
     onMounted(() => {
       getNotesOwnerInfo();
     })
