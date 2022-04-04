@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar>
-    <el-menu :default-openeds="['0','1','2','3']" >
+    <el-menu :default-openeds="['0','1','2','3']">
       <el-breadcrumb separator="/">
         <el-page-header :icon="ArrowLeft" content="返回" @back="goBack"/>
       </el-breadcrumb>
@@ -111,25 +111,25 @@
           <template #title>运营管理</template>
           <el-menu-item index="5-1">
             <router-link to="/menu/SearchNote">
-              用户管理
+              数据中心
             </router-link>
           </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
     </el-menu>
     <div class="div-out">
-      <el-button type="info" :icon="ArrowRightBold">退出登录</el-button>
+      <el-button type="info" :icon="ArrowLeftBold" @click="signOut()">退出登录</el-button>
     </div>
   </el-scrollbar>
 </template>
 <script lang="ts">
-import {Message,  Setting,ArrowRightBold} from '@element-plus/icons-vue'
+import {Message, Setting, ArrowLeftBold} from '@element-plus/icons-vue'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {getCurrentInstance, onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
-import {Result} from "@/utils/CommonValidators";
+import {Result, StorageAuthStr, StorageTokenStr} from "@/utils/CommonValidators";
 
-import {getUserAuthApi} from "@/api/mk-user-api";
+import {getUserAuthApi, signOutApi} from "@/api/mk-user-api";
 
 export default {
   setup(props: any) {
@@ -151,14 +151,28 @@ export default {
     onMounted(() => {
       queryRole();
     })
-
+    const signOut = () => {
+      proxy.$axios.post(signOutApi)
+          .then((res: Result) => {
+            if (res.data.code == 200) {
+              localStorage.removeItem(StorageTokenStr)
+              sessionStorage.removeItem(StorageAuthStr)
+              proxy.$message({
+                message: res.data.message,
+                type: "success"
+              });
+              router.push("/")
+            }
+          })
+    }
     return {
       role,
       ArrowLeft,
       Message,
       Setting,
       goBack,
-      ArrowRightBold
+      ArrowLeftBold,
+      signOut
     }
   }
 }
@@ -166,7 +180,7 @@ export default {
 </script>
 
 <style scoped>
-.div-out{
+.div-out {
   position: absolute;
   bottom: 0px;
 }

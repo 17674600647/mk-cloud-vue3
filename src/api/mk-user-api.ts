@@ -6,6 +6,10 @@ const baseUrl = gatewayUrl + "/mkuser"
 export const userRegisterApi = baseUrl + "/base/register"
 /*登录接口*/
 export const userLoginApi = baseUrl + "/base/login"
+/**
+ * 登出接口
+ */
+export const signOutApi = baseUrl + "/base/sign/out"
 // 获取用户信息
 export const getUserInfoApi = baseUrl + "/base/get/info"
 /**
