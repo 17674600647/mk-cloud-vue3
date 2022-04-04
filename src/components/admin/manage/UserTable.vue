@@ -1,7 +1,7 @@
 <template>
-  <div style="position: relative;height:100%;width: 100%">
-    <div style="position: relative;width: 400px;margin-right: 0px">
-      <el-select v-model="userPageDTO.status" class="m-2" placeholder="选择帐号状态~" style="margin-right: 16px"
+  <div style="position: relative;height:100%;width: 100%;float: left">
+    <div style="position: relative;width: 100%;margin-right: 0px;height: 50px;" >
+      <el-select v-model="userPageDTO.status" class="m-2" placeholder="选择帐号状态~" style="margin-left: 16px;float: right"
                  @change="handleSizeChange">
         <el-option
             v-for="item in options"
@@ -10,19 +10,20 @@
             :value="item.value"
         />
       </el-select>
+      <div style="width: 300px;float: right">
+        <el-input
+            v-model="userPageDTO.content"
+            placeholder="搜索昵称或者用户名或者邮箱"
+            class="input-with-select"
+        >
+          <template #append>
+            <el-button :icon="Search" @click="searchByKeyword()"/>
+          </template>
+        </el-input>
+      </div>
     </div>
-    <div style="position: relative;width: 400px;margin-right: 0px">
-      <el-input
-          v-model="userPageDTO.content"
-          placeholder="搜索昵称或者用户名或者邮箱"
-          class="input-with-select"
-      >
-        <template #append>
-          <el-button :icon="Search" @click="searchByKeyword()"/>
-        </template>
-      </el-input>
-    </div>
-    <el-scrollbar style="height: calc(100% - 110px)">
+
+    <el-scrollbar style="height: calc(100% - 110px);width: 100%" >
       <el-table :data='tableData'> stripe>
         <el-table-column type="id" prop="id" label="用户ID" width="200"/>
         <el-table-column prop="username" label="用户名" width="200"></el-table-column>
@@ -34,19 +35,19 @@
         <el-table-column prop="status" label="状态" width="100">
           <template #default="scope">
             <div v-show="scope.row.status==0">
-              <el-button size="small" type="warning" plain>
+              <el-tag size="small" type="warning" plain>
                 冻结
-              </el-button>
+              </el-tag>
             </div>
             <div v-show="scope.row.status==1">
-              <el-button size="small" type="success" plain>
+              <el-tag size="small" type="success" plain>
                 正常
-              </el-button>
+              </el-tag>
             </div>
             <div v-show="scope.row.status==-1">
-              <el-button size="small" type="danger" plain>
+              <el-tag size="small" type="danger" plain>
                 封禁
-              </el-button>
+              </el-tag>
             </div>
           </template>
         </el-table-column>

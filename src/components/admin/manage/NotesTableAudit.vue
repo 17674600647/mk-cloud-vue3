@@ -9,24 +9,24 @@
         <el-table-column prop="shareStatus" label="分享状态" width="100">
           <template #default="scope">
             <div v-show="scope.row.shareStatus==-1">
-              <el-button size="small" type="info">
+              <el-tag size="small" type="info">
                 未分享
-              </el-button>
+              </el-tag>
             </div>
             <div v-show="scope.row.shareStatus==1">
-              <el-button size="small" type="success">
+              <el-tag size="small" type="success">
                 已分享
-              </el-button>
+              </el-tag>
             </div>
             <div v-show="scope.row.shareStatus==0">
-              <el-button size="small" type="warning">
+              <el-tag size="small" type="warning">
                 待审核
-              </el-button>
+              </el-tag>
             </div>
             <div v-show="scope.row.shareStatus==2">
-              <el-button size="small" type="danger">
+              <el-tag size="small" type="danger">
                 审核未通过
-              </el-button>
+              </el-tag>
             </div>
           </template>
         </el-table-column>

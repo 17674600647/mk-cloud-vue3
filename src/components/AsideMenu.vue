@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar>
-    <el-menu :default-openeds="['0','1','2','3']">
+    <el-menu :default-openeds="['0','1','2','3']" >
       <el-breadcrumb separator="/">
         <el-page-header :icon="ArrowLeft" content="返回" @back="goBack"/>
       </el-breadcrumb>
@@ -117,17 +117,18 @@
         </el-menu-item-group>
       </el-sub-menu>
     </el-menu>
+    <div class="div-out">
+      <el-button type="info" :icon="ArrowRightBold">退出登录</el-button>
+    </div>
   </el-scrollbar>
 </template>
 <script lang="ts">
-import {Message, Menu as IconMenu, Setting} from '@element-plus/icons-vue'
+import {Message,  Setting,ArrowRightBold} from '@element-plus/icons-vue'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {Menu} from "@element-plus/icons";
 import {useRouter} from "vue-router";
-import {collectOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
-import {ElNotification} from "element-plus/es";
+
 import {getUserAuthApi} from "@/api/mk-user-api";
 
 export default {
@@ -156,7 +157,8 @@ export default {
       ArrowLeft,
       Message,
       Setting,
-      goBack
+      goBack,
+      ArrowRightBold
     }
   }
 }
@@ -164,5 +166,8 @@ export default {
 </script>
 
 <style scoped>
-
+.div-out{
+  position: absolute;
+  bottom: 0px;
+}
 </style>
