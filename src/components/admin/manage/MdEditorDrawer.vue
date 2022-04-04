@@ -16,8 +16,7 @@ import {ElNotification} from "element-plus/es";
 import {Result} from "@/utils/CommonValidators";
 import {useRoute} from "vue-router";
 import {UserInfo} from "@/utils/UserValidators";
-import {GetOneNoteDTO, UpdateNoteStatusDTO} from "@/utils/NotesValidatoes";
-import { updateNoteStatusApi} from "@/api/mk-base-api";
+import {GetOneNoteDTO} from "@/utils/NotesValidatoes";
 
 
 export default {

@@ -34,3 +34,7 @@ export const getAllUsersByStatusApi = baseUrl + "/manager/get/all/users"
  * 更新用户状态
  */
 export const updateUserStatusApi = baseUrl + "/manager/update/user/status"
+/**
+ * 更新用户状态
+ */
+export const updateNoteStatusApi = baseUrl + "/manager/update/note/status"

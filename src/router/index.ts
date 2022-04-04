@@ -72,6 +72,10 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'NotesTableAudit',
                 component: () => import( '../components/admin/manage/NotesTableAudit.vue'),
+            },
+            {
+                path: 'AdminDataReport',
+                component: () => import( '../components/admin/dataReport/AdminDataReport.vue'),
             }
         ]
     }, {

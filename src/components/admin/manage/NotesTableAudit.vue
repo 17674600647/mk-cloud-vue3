@@ -82,17 +82,15 @@
 import {getCurrentInstance, onMounted, ref} from "vue";
 import {
   adminDeleteOneApi,
-  deleteOneNoteApi,
-  getNotesApi,
   getNotesByStatusApi,
-  getOneNoteApi,
-  shareOneNoteApi, updateNoteStatusApi
+  shareOneNoteApi
 } from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
 import {GetNotesByShareStatusDTO, GetNotesDTO, GetOneNoteDTO, UpdateNoteStatusDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 import MdEditorDrawer from "@/components/admin/manage/MdEditorDrawer.vue"
+import {updateNoteStatusApi} from "@/api/mk-user-api";
 
 export default {
   name: "MyNotes",

@@ -110,7 +110,7 @@
         <el-menu-item-group>
           <template #title>运营管理</template>
           <el-menu-item index="5-1">
-            <router-link to="/menu/SearchNote">
+            <router-link to="/menu/AdminDataReport">
               数据中心
             </router-link>
           </el-menu-item>
