@@ -76,6 +76,10 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'AdminDataReport',
                 component: () => import( '../components/admin/dataReport/AdminDataReport.vue'),
+            },
+            {
+                path: 'LogsTable',
+                component: () => import( '../components/admin/manage/LogsTable.vue'),
             }
         ]
     }, {

@@ -24,7 +24,8 @@
     </div>
 
     <el-scrollbar style="height: calc(100% - 110px);width: 100%" >
-      <el-table :data='tableData'> stripe>
+      <el-table :data='tableData' >
+        <el-table-column type="index" label="序号" width="120"/>
         <el-table-column type="id" prop="id" label="用户ID" width="200"/>
         <el-table-column prop="username" label="用户名" width="200"></el-table-column>
         <el-table-column prop="age" label="年龄" width="80"></el-table-column>

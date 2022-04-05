@@ -53,3 +53,7 @@ export const adminRecoverOneApi = baseUrl + "/manager/recover/one/note"
  * 查询数据
  */
 export const queryNoteDataReportApi = baseUrl + "/manager/query/note/data/report"
+/**
+ * 更新用户状态
+ */
+export const updateNoteStatusApi = baseUrl + "/manager/update/note/status"

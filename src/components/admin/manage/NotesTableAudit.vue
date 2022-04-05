@@ -90,7 +90,7 @@ import {GetNotesByShareStatusDTO, GetNotesDTO, GetOneNoteDTO, UpdateNoteStatusDT
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 import MdEditorDrawer from "@/components/admin/manage/MdEditorDrawer.vue"
-import {updateNoteStatusApi} from "@/api/mk-user-api";
+import {updateNoteStatusApi} from "@/api/mk-base-api";
 
 export default {
   name: "MyNotes",

@@ -6,3 +6,7 @@ const baseUrl = gatewayUrl + "/mkother"
 export const emailSendApi = baseUrl+"/base/email/send"
 /*文章图片上传*/
 export const picUploadApi = baseUrl+"/file/pic/upload"
+/**
+ * 获取日志接口
+ */
+export const queryLogsApi = baseUrl+"/base/query/logs"

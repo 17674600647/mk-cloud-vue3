@@ -30,6 +30,7 @@ import {NoteDataReportVO} from "@/utils/NotesValidatoes";
 export default {
   name: "AdminDataReport",
   setup() {
+    //@ts-ignore
     const {proxy} = getCurrentInstance();
     const percentage = ref<NoteDataReportVO>({
       notPassed: 0,

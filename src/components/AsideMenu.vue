@@ -114,6 +114,11 @@
               数据中心
             </router-link>
           </el-menu-item>
+          <el-menu-item index="5-1">
+            <router-link to="/menu/LogsTable">
+              日志中心
+            </router-link>
+          </el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
     </el-menu>
