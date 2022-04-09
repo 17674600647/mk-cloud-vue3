@@ -19,7 +19,6 @@
               基本信息
             </router-link>
           </el-menu-item>
-          <el-menu-item index="1-2">安全设置</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
       <el-sub-menu index="2" v-show="role===1">

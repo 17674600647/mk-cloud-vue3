@@ -34,10 +34,10 @@ export const getCollectNotesApi = baseUrl + "/base/query/collect/notes"
 /*------------search服务--------------------*/
 const searchUrl = "/search"
 /*搜索分享的文章标题与内容*/
-export const searchShareNotesApi = baseUrl + searchUrl + "/search/share/notes/"
+export const searchShareNotesApi = baseUrl + searchUrl + "/share/notes"
 
 /*搜索分享的文章标题*/
-export const searchShareNoteTitleApi = baseUrl + searchUrl + "/search/share/notes/title"
+export const searchShareNoteTitleApi = baseUrl + searchUrl + "/share/notes/title"
 /*------------管理员--------------------*/
 /*根据状态查询文章*/
 export const getNotesByStatusApi = baseUrl + "/manager/get/notes/by/status"
