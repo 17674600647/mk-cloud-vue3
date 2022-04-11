@@ -1,5 +1,4 @@
 <template>
-
   <el-form
       ref="loginForm"
       label-width="100px"
@@ -28,9 +27,9 @@
       <el-button type="primary" class="submit-btn" @click="handleLogin('loginForm')">登 录</el-button>
     </el-form-item>
     <!--          找回密码-->
-    <div class="tiparea">
+<!--    <div class="tiparea">
       <p>忘记密码?<a>立即找回</a></p>
-    </div>
+    </div>-->
   </el-form>
 </template>
 

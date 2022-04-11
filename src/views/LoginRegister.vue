@@ -15,7 +15,6 @@
       <div class="panel left-panel">
         <div class="content">
           <h3>学习是为了更多的选择,让生活变得更美好</h3>
-          <p>何以解忧,唯有米修</p>
           <button class="btn transparent" @click="signUpMode=!signUpMode">去注册</button>
         </div>
         <img src="@/assets/image/log.svg" class="image" alt=""/>
@@ -23,7 +22,6 @@
       <div class="panel right-panel">
         <div class="content">
           <h3>以人为镜,可明得失,以代码为镜,可通逻辑!</h3>
-          <p>学习编程,让你的生活更有趣</p>
           <button class="btn transparent" @click="signUpMode=!signUpMode">去登录</button>
         </div>
         <img src="@/assets/image/register.svg" class="image" alt=""/>

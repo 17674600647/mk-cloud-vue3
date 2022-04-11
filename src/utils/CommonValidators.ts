@@ -31,5 +31,12 @@ export const getToken = () => {
     return sessionStorage.getItem(StorageTokenStr);
 }
 
+export interface DataReportVo {
+    days: any;
+    userNumbChange: any;
+    noteNumbChange: any;
+    loginNumbChange: any;
+    shareNumbChange: any;
+}
 
 

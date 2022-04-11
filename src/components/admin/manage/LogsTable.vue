@@ -13,7 +13,7 @@
       <div style="width: 300px;float: right">
         <el-input
             v-model="logsDTO.keyWords"
-            placeholder="搜索昵称或者用户名或者邮箱"
+            placeholder="搜索操作描述"
             class="input-with-select"
         >
           <template #append>

@@ -10,3 +10,7 @@ export const picUploadApi = baseUrl+"/file/pic/upload"
  * 获取日志接口
  */
 export const queryLogsApi = baseUrl+"/base/query/logs"
+/**
+ * 获取数据面板
+ */
+export const queryDataReportApi = baseUrl+"/base/query/data/report"

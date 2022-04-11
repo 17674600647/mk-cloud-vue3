@@ -2,6 +2,7 @@ import {createApp} from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import * as echarts from 'echarts'
 // @ts-ignore
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -27,6 +28,7 @@ for (const name in ElIcons){
     app.component(name,(ElIcons as any)[name])
 }
 app.config.globalProperties.$axios = axios;
+app.config.globalProperties.$echarts = echarts;
 app.use(store);
 app.use(router);
 app.use(ElementPlus);
