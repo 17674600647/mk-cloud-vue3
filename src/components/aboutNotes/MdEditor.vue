@@ -24,7 +24,32 @@
     >
     </v-md-editor>
   </div>
-
+  <el-dialog v-model="dialogVisible" title="Tips" width="30%" draggable>
+    <span>选择文章的分类: </span>
+    <el-select
+        v-model="noteDto.mkTypeNameList"
+        multiple
+        filterable
+        allow-create
+        default-first-option
+        :reserve-keyword="false"
+        placeholder="选择你的分类或者新建~"
+    >
+      <el-option
+          v-for="item in options"
+          :key="item.name"
+          :label="item.name"
+          :value="item.name"
+      />
+    </el-select>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="btnSave()"
+        >保 存</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -33,7 +58,7 @@ import {useRoute, useRouter} from "vue-router";
 import {picUploadApi} from "@/api/mk-other-api"
 import {Result} from "@/utils/CommonValidators";
 import {GetOneNoteDTO, ChangeMode, NoteDTO} from "@/utils/NotesValidatoes";
-import {getOneNoteApi, saveNoteApi} from "@/api/mk-base-api";
+import {getNoteTypeApi, getOneNoteApi, saveNoteApi} from "@/api/mk-base-api";
 import {ElNotification} from "element-plus";
 
 export default {
@@ -70,10 +95,13 @@ export default {
     }
   },
   setup(props: any) {
+    const dialogVisible = ref(false)
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
     const route = useRoute();
+    const value = ref<string[]>([])
+    const options = ref([])
     const editMode = ref<ChangeMode>({
       controlBtn: props.editShow,
       controlBrowser: props.browser,
@@ -93,7 +121,8 @@ export default {
     const noteDto = ref<NoteDTO>({
       content: "",
       noteId: "",
-      title: ""
+      title: "",
+      mkTypeNameList: []
     })
     //@ts-ignore
     const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
@@ -115,10 +144,7 @@ export default {
             });
           })
     }
-
-
-    const saveContent = (text: any, html: any) => {
-      console.log(noteDto.value);
+    const saveNotes = () => {
       //todo:完成文本的上传时候处理文件
       proxy.$axios.post(saveNoteApi, noteDto.value)
           .then((res: Result) => {
@@ -134,6 +160,19 @@ export default {
           })
     }
 
+
+    const saveContent = (text: any, html: any) => {
+      queryNoteTypes();
+      if (noteDto.value.noteId==""){
+        proxy.dialogVisible = true
+      }else {
+        saveNotes()
+      }
+    }
+    const btnSave = () => {
+      proxy.dialogVisible = false;
+      saveNotes();
+    }
     const queryNotes = (noteId: string) => {
       const getOneNoteDTO = ref<GetOneNoteDTO>({
         noteId: noteId
@@ -148,19 +187,29 @@ export default {
             }
           })
     }
+    const queryNoteTypes = () => {
+      proxy.$axios.post(getNoteTypeApi)
+          .then((res: Result) => {
+            //查询成功
+            if (res.data.code == 200) {
+              proxy.options = res.data.data
+            }
+          })
+    }
+
     onMounted(() => {
       let queryNoteID = route.query.noteId;
       if (queryNoteID != null && queryNoteID != "" && props.update == true) {
         noteDto.value.noteId = <string>queryNoteID;
         proxy.queryNotes(noteDto.value.noteId);
       }
-      if (props.noteId!=''){
+      if (props.noteId != '') {
         noteDto.value.noteId = props.noteId;
         proxy.queryNotes(noteDto.value.noteId);
       }
     })
     return {
-      handleUploadImage, saveContent, noteDto, queryNotes, btnClick, editMode,
+      handleUploadImage, saveContent, noteDto, queryNotes, btnClick, editMode, dialogVisible, value, options, btnSave
     };
   },
 };

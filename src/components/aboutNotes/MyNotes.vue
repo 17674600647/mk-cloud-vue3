@@ -1,5 +1,14 @@
 <template>
   <div style="position: relative;height:100%">
+    <el-select v-model="noteDto.type" class="m-2" placeholder="选择文章分类" style="margin-right: 16px"
+               @change="">
+      <el-option
+          v-for="item in options"
+          :key="item.name"
+          :label="item.name"
+          :value="item.name"
+      />
+    </el-select>
     <el-scrollbar style="height: calc(100% - 70px)">
       <el-table :data='tableData'> stripe>
         <el-table-column type="index" label="序号" width="70"/>
@@ -74,7 +83,7 @@
 import {getCurrentInstance, onMounted, ref} from "vue";
 import {deleteOneNoteApi, getNotesApi, getOneNoteApi, shareOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
-import {GetNotesDTO, GetOneNoteDTO} from "@/utils/NotesValidatoes";
+import {GetNotesDTO, GetNotesDTO2, GetOneNoteDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
 import {ElNotification} from "element-plus";
 
@@ -89,8 +98,9 @@ export default {
     const total = ref()
     const background = ref(true)
     const currentPage = ref(1)
-    const noteDto = ref<GetNotesDTO>({
+    const noteDto = ref<GetNotesDTO2>({
       currentPage: 10,
+      noteType: "",
       pageSize: 1
     })
     const handleSizeChange = (val: number) => {
@@ -112,7 +122,7 @@ export default {
     const pageSize = ref(10)
     onMounted(() => {
       console.log("初始化查询数据..")
-      proxy.handleCurrentChange(1);
+      handleCurrentChange(1);
     })
     const handleEdit = (index: number, row: any) => {
       console.log(index, row.id)
@@ -161,6 +171,9 @@ export default {
             }
           })
     }
+    const options = [
+      {name:"微服务"},
+     ];
     const showShareBtn = (status: any) => {
       if (status == 1) {
         return false;
@@ -184,7 +197,9 @@ export default {
       handleEdit,
       handleDelete,
       handleShare,
-      showShareBtn
+      showShareBtn,
+      options,
+      noteDto
     };
   }
 }

@@ -2,13 +2,18 @@ export interface NoteDTO {
     noteId: string,
     title: string,
     content: string
+    mkTypeNameList:[]
 }
 
 export interface GetNotesDTO {
     pageSize: number,
     currentPage: number,
 }
-
+export interface GetNotesDTO2 {
+    pageSize: number,
+    currentPage: number,
+    noteType: string
+}
 export interface GetNotesByShareStatusDTO {
     pageSize: number,
     currentPage: number,
