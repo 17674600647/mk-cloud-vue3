@@ -62,3 +62,6 @@ export interface NoteDataReportVO {
      */
     notPassedRate: number;
 }
+export interface LeaderboardVO{
+    noteTitleList:any
+}

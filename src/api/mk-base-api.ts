@@ -58,6 +58,10 @@ export const queryNoteDataReportApi = baseUrl + "/manager/query/note/data/report
  */
 export const updateNoteStatusApi = baseUrl + "/manager/update/note/status"
 /**
- * 获取用户的类型
+ * 获取所有类型
  */
 export const getNoteTypeApi = baseUrl + "/base/query/all/type"
+/**
+ * 查询热点数据
+ */
+export const getQueryLeaderboardApi = baseUrl + "/base/query/leaderboard/data"

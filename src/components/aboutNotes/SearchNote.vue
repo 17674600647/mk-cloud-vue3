@@ -18,13 +18,20 @@
             </template>
           </el-input>
           <el-card class="box-cardX" v-show="showCard">
-            <el-card class="el-Xcard" :shadow="'hover'" v-for="item in noteList" @click="changeSearchContent(item)" >
+            <el-card class="el-Xcard" :shadow="'hover'" v-for="item in noteList" @click="changeSearchContent(item)">
               <span class="title-item">{{ item }}</span>
             </el-card>
           </el-card>
         </div>
       </div>
-      <div class="search3div"></div>
+      <div class="search3div">
+        <el-card class="box-card">
+          <el-table :data="tableData.noteTitleList" style="width: 100%;height: 200px" @row-click="rowClick">
+            <el-table-column prop="title" label="文章标题"/>
+            <el-table-column prop="hotScore" label="热度" width="100"/>
+          </el-table>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
@@ -32,10 +39,14 @@
 <script lang="ts">
 import {Search} from '@element-plus/icons-vue'
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {SearchNotesDTO} from "@/utils/NotesValidatoes";
-import {disShareOneNoteApi, searchShareNotesApi, searchShareNoteTitleApi} from "@/api/mk-base-api";
+import {LeaderboardVO, SearchNotesDTO} from "@/utils/NotesValidatoes";
+import {
+  getQueryLeaderboardApi,
+  searchShareNoteTitleApi
+} from "@/api/mk-base-api";
 import {ElNotification} from "element-plus";
 import {useRouter} from "vue-router";
+import {Result} from "@/utils/CommonValidators";
 
 export default {
   name: "SearchNote",
@@ -43,6 +54,9 @@ export default {
     //@ts-ignore
     const {proxy} = getCurrentInstance();
     const router = useRouter();
+    const tableData = ref<LeaderboardVO>({
+      noteTitleList: undefined
+    })
     const searchDiv = {
       backgroundImage: "url(" + require("../../assets/image/back_img.png") + ")",
       backgroundRepeat: "no-repeat",
@@ -91,7 +105,31 @@ export default {
       proxy.showCard = false;
       SearchNote();
     }
+    const rowClick = (row: any, column: any, event: any) => {
+      let routeData = router.resolve({
+        //传递参数使用query的话，指定path或者name都行，但使用params的话，只能使用name指定
+        path: '/menu/BrowseOthersNotes',
+        query: {
+          noteId: row.id
+        }
+      })
+      window.open(routeData.href, '_blank')
+    }
+    const getQueryLeaderboard = () => {
+      proxy.$axios.post(getQueryLeaderboardApi)
+          .then((res: Result) => {
+            //查询成功
+            if (res.data.code == 200) {
+              tableData.value.noteTitleList = res.data.data
+            }
+          })
+    }
+    onMounted(() => {
+      getQueryLeaderboard();
+    })
     return {
+      rowClick,
+      tableData,
       changeSearchContent,
       searchContent,
       searchDiv,
@@ -101,7 +139,6 @@ export default {
       searchTitle,
       noteList,
       showCard,
-
     };
   }
 }
@@ -156,5 +193,16 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 20;
+  border: #4d84e2 1px solid;
+}
+
+.box-card {
+  position: absolute;
+  width: 600px;
+  top: 40%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -300px;
+  z-index: 31;
 }
 </style>
