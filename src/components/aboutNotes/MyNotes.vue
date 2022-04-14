@@ -1,14 +1,16 @@
 <template>
   <div style="position: relative;height:100%">
-    <el-select v-model="noteDto.type" class="m-2" placeholder="选择文章分类" style="margin-right: 16px"
-               @change="">
+    <el-select v-model="noteDto.noteTypeId" class="m-2" placeholder="选择文章分类" style="margin-right: 16px"
+               @change="selectBtn()">
       <el-option
           v-for="item in options"
           :key="item.name"
           :label="item.name"
-          :value="item.name"
+          :value="item.id"
       />
     </el-select>
+    <br>
+    <br>
     <el-scrollbar style="height: calc(100% - 70px)">
       <el-table :data='tableData'> stripe>
         <el-table-column type="index" label="序号" width="70"/>
@@ -81,7 +83,7 @@
 
 <script lang="ts">
 import {getCurrentInstance, onMounted, ref} from "vue";
-import {deleteOneNoteApi, getNotesApi, getOneNoteApi, shareOneNoteApi} from "@/api/mk-base-api";
+import {deleteOneNoteApi, getNotesApi, getNoteTypeApi, getOneNoteApi, shareOneNoteApi} from "@/api/mk-base-api";
 import {Result} from "@/utils/CommonValidators";
 import {GetNotesDTO, GetNotesDTO2, GetOneNoteDTO} from "@/utils/NotesValidatoes";
 import {useRouter} from "vue-router";
@@ -100,7 +102,7 @@ export default {
     const currentPage = ref(1)
     const noteDto = ref<GetNotesDTO2>({
       currentPage: 10,
-      noteType: "",
+      noteTypeId: "2314324231234",
       pageSize: 1
     })
     const handleSizeChange = (val: number) => {
@@ -123,6 +125,7 @@ export default {
     onMounted(() => {
       console.log("初始化查询数据..")
       handleCurrentChange(1);
+      queryNoteTypes()
     })
     const handleEdit = (index: number, row: any) => {
       console.log(index, row.id)
@@ -171,9 +174,19 @@ export default {
             }
           })
     }
-    const options = [
-      {name:"微服务"},
-     ];
+    const options = ref([])
+    const queryNoteTypes = () => {
+      proxy.$axios.post(getNoteTypeApi)
+          .then((res: Result) => {
+            //查询成功
+            if (res.data.code == 200) {
+              proxy.options = res.data.data
+            }
+          })
+    }
+    const selectBtn = () => {
+      handleCurrentChange(1);
+    }
     const showShareBtn = (status: any) => {
       if (status == 1) {
         return false;
@@ -199,7 +212,8 @@ export default {
       handleShare,
       showShareBtn,
       options,
-      noteDto
+      noteDto,
+      selectBtn
     };
   }
 }

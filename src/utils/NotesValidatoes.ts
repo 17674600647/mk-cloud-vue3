@@ -12,7 +12,7 @@ export interface GetNotesDTO {
 export interface GetNotesDTO2 {
     pageSize: number,
     currentPage: number,
-    noteType: string
+    noteTypeId: any
 }
 export interface GetNotesByShareStatusDTO {
     pageSize: number,
