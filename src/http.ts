@@ -62,7 +62,11 @@ axios.interceptors.response.use((response: AxiosResponse<any, any>) => {
                     );
                     break;
                 default:
-                    alert("未知错误~")
+                    ElNotification({
+                        title: 'Error',
+                        message: "服务器走神啦~",
+                        type: 'error',
+                    })
             }
         }
 

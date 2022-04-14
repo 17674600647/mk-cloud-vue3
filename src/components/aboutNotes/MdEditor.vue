@@ -163,9 +163,9 @@ export default {
 
     const saveContent = (text: any, html: any) => {
       queryNoteTypes();
-      if (noteDto.value.noteId==""){
+      if (noteDto.value.noteId == "") {
         proxy.dialogVisible = true
-      }else {
+      } else {
         saveNotes()
       }
     }
