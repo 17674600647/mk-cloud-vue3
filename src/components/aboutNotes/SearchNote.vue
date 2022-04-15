@@ -26,10 +26,12 @@
       </div>
       <div class="search3div">
         <el-card class="box-card">
-          <el-table :data="tableData.noteTitleList" style="width: 100%;height: 200px" @row-click="rowClick">
-            <el-table-column prop="title" label="文章标题"/>
-            <el-table-column prop="hotScore" label="热度" width="100"/>
-          </el-table>
+          <el-scrollbar >
+            <el-table :data="tableData.noteTitleList" style="width: 100%;" @row-click="rowClick">
+              <el-table-column prop="title" label="文章标题"/>
+              <el-table-column prop="hotScore" label="热度" width="100"/>
+            </el-table>
+          </el-scrollbar>
         </el-card>
       </div>
     </div>
@@ -85,11 +87,6 @@ export default {
             .then((res: any) => {
               //查询成功
               if (res.data.code == 200) {
-                ElNotification({
-                  title: 'Success',
-                  message: '查询成功~',
-                  type: 'success',
-                })
                 proxy.noteList = res.data.data.noteList;
                 if (res.data.data.total > 0) {
                   proxy.showCard = true;
@@ -193,12 +190,13 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 20;
-  border: #4d84e2 1px solid;
+
 }
 
 .box-card {
   position: absolute;
   width: 600px;
+  height: 300px;
   top: 40%;
   left: 50%;
   margin-top: -100px;

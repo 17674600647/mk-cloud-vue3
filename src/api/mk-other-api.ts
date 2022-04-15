@@ -13,4 +13,4 @@ export const queryLogsApi = baseUrl+"/base/query/logs"
 /**
  * 获取数据面板
  */
-export const queryDataReportApi = baseUrl+"/base/query/data/report"
+export const queryDataReportApi =  baseUrl+"/base/query/data/report"

@@ -78,11 +78,6 @@ export default {
           .then((res: any) => {
             //查询成功
             if (res.data.code == 200) {
-              ElNotification({
-                title: 'Success',
-                message: '查询成功~',
-                type: 'success',
-              })
               proxy.showCard = false;
               proxy.notesData = res.data.data.noteList;
               proxy.totalx = res.data.data.total;

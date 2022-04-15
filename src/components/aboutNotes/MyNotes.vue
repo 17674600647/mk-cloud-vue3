@@ -12,7 +12,7 @@
     <br>
     <br>
     <el-scrollbar style="height: calc(100% - 70px)">
-      <el-table :data='tableData'> stripe>
+      <el-table :data='tableData'>
         <el-table-column type="index" label="序号" width="70"/>
         <el-table-column prop="title" label="标题" width="400"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
